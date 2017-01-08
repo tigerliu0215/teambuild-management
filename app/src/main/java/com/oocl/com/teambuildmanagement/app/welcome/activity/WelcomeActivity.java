@@ -11,8 +11,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-import com.oocl.com.teambuildmanagement.LoginActivity;
 import com.oocl.com.teambuildmanagement.R;
+import com.oocl.com.teambuildmanagement.app.home.activity.HomeActivity;
 
 /**
  * Author：Jonas Yu on 2017/1/2 01:52
@@ -27,7 +27,7 @@ public class WelcomeActivity extends AppCompatActivity implements Animation.Anim
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message message) {
-            Intent intent = new Intent(WelcomeActivity.this,LoginActivity.class);
+            Intent intent = new Intent(WelcomeActivity.this,HomeActivity.class);
             startActivity(intent);
             finish();
             return false;
