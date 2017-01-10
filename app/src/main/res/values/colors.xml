@@ -6,4 +6,5 @@
 
     <color name="white">#FFFFFF</color>
     <color name="colorTheme">#03A9F4</color>
+    <color name="colorInterval">#eeeeee</color>
 </resources>
