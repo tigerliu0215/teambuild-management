@@ -31,9 +31,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private FrameLayout fl_mine;
     private FrameLayout fl_activity;
 
-    private ImageView iv_home;//首页
-    private ImageView iv_activity;//搜索
-    private ImageView iv_mine;//我的
+    private ImageView iv_home;
+    private ImageView iv_activity;
+    private ImageView iv_mine;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

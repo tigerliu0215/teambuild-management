@@ -4,10 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
+        android:id="@+id/ll_header"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:visibility="gone"
+        >
+        <ImageView
+            android:id="@+id/iv_ad"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/welcome"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="@dimen/default_padding">
+        android:padding="@dimen/default_padding"
+        android:background="@drawable/selector_item_activity_bg">
         <ImageView
             android:id="@+id/iv_activity"
             android:layout_width="80dp"

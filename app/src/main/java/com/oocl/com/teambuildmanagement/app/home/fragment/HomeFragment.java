@@ -3,6 +3,7 @@ package com.oocl.com.teambuildmanagement.app.home.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,9 +11,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.oocl.com.teambuildmanagement.R;
 import com.oocl.com.teambuildmanagement.app.home.adapter.ActivityAdapter;
+import com.oocl.com.teambuildmanagement.util.SnackBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +64,16 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         rv_activities.setLayoutManager(new LinearLayoutManager(getContext()));
         activityAdapter = new ActivityAdapter(activitiesList,getContext());
         rv_activities.setAdapter(activityAdapter);
+        activityAdapter.setOnItemClickLitener(new ActivityAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(int position) {
+                System.out.println(position);
+//                View view = LayoutInflater.from(H).inflate(R.layout.snackbar_default,null);
+//                TextView tv_msg = (TextView)view.findViewById(R.id.tv_msg);
+//                tv_msg.setText(position + "");
+//                SnackBarUtil.showSanckBarUtil(view,"test");
+            }
+        });
     }
 
     public void initHeader(ActivityAdapter activityAdapter){
@@ -72,9 +85,9 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                // 停止刷新
+
                 swipeRefreshLayout.setRefreshing(false);
             }
-        }, 3000); // 5秒后发送消息，停止刷新
+        }, 3000);
     }
 }
