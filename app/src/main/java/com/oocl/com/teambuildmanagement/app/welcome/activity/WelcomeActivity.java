@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.oocl.com.teambuildmanagement.R;
 import com.oocl.com.teambuildmanagement.app.home.activity.HomeActivity;
+import com.squareup.picasso.Picasso;
 
 /**
  * Author：Jonas Yu on 2017/1/2 01:52
@@ -43,7 +44,8 @@ public class WelcomeActivity extends AppCompatActivity implements Animation.Anim
     public void initViews(){
         iv_welcome = (ImageView)findViewById(R.id.iv_welcome);
         animation = AnimationUtils.loadAnimation(this,R.anim.anim_welcome);
-        iv_welcome.setImageResource(R.mipmap.welcome);
+        Picasso.with(this).load("http://112.74.166.187:8443/modules/activities/client/images/uploads/b198616e49ffb9e0529c69cfad844efb").into(iv_welcome);
+//        iv_welcome.setImageResource(R.mipmap.welcome);
         animation.setFillEnabled(true); //启动Fill保持
         animation.setFillAfter(true);  //设置动画的最后一帧是保持在View上面
         iv_welcome.setAnimation(animation);

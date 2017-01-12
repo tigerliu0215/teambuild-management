@@ -9,11 +9,10 @@
         android:layout_height="200dp"
         android:visibility="gone"
         >
-        <ImageView
-            android:id="@+id/iv_ad"
+        <com.oocl.com.teambuildmanagement.widget.ADView
+            android:id="@+id/adView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@mipmap/welcome"/>
+            android:layout_height="match_parent" />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/ll_content"

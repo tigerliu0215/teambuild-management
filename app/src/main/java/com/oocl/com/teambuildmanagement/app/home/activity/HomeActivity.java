@@ -39,6 +39,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         initViews();
+        fl_home.setSelected(true);
+        chooseFragment(homeFragment);
     }
     public void initFragments(){
         homeFragment = new HomeFragment();

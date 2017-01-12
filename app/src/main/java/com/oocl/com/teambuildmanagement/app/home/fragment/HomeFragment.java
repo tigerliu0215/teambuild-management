@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,20 @@ import android.widget.TextView;
 
 import com.oocl.com.teambuildmanagement.R;
 import com.oocl.com.teambuildmanagement.app.home.adapter.ActivityAdapter;
+import com.oocl.com.teambuildmanagement.model.vo.AD;
+import com.oocl.com.teambuildmanagement.model.vo.TeamActivity;
+import com.oocl.com.teambuildmanagement.util.HttpUtil;
+import com.oocl.com.teambuildmanagement.util.LogUtil;
+import com.oocl.com.teambuildmanagement.util.OkHttpUtil;
 import com.oocl.com.teambuildmanagement.util.SnackBarUtil;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 /**
  * Author：Jonas Yu on 2017/1/8 23:10
@@ -29,8 +40,9 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     //activity list and ad
     private RecyclerView rv_activities;
     private ActivityAdapter activityAdapter;
-    private List<String> activitiesList;
+    private List<TeamActivity> activitiesList;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private List<AD> adList;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,15 +57,36 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         }
         return view;
     }
+
     public void refreshDatas(){
         activitiesList = new ArrayList<>();
-        activitiesList.add("Hong Kong Colleagues Christmas Celebrations 2016");
-        activitiesList.add("CEO New Year Message 2017");
-        activitiesList.add("OOCL Sri Lanka Celebrates 10th");
-        activitiesList.add("OOCL Sri Lanka Celebrates 10th 1");
-        activitiesList.add("OOCL Sri Lanka Celebrates 10th 2");
-        activitiesList.add("OOCL Sri Lanka Celebrates 10th 3");
+        TeamActivity teamActivity = new TeamActivity();
+        teamActivity.setTitle("test1");
+        activitiesList.add(teamActivity);
+        teamActivity = new TeamActivity();
+        teamActivity.setTitle("test2");
+        activitiesList.add(teamActivity);
+
+        adList = new ArrayList<>();
+        AD ad = new AD();
+        ad.setLink("http://112.74.166.187:8443/modules/activities/client/images/uploads/b198616e49ffb9e0529c69cfad844efb");
+        adList.add(ad);
+        ad = new AD();
+        ad.setLink("http://112.74.166.187:8443/modules/activities/client/images/uploads/a22822d5110e810779e0c3dc06990f93");
+        adList.add(ad);
+        ad = new AD();
+        ad.setLink("http://112.74.166.187:8443/modules/activities/client/images/uploads/b198616e49ffb9e0529c69cfad844efb");
+        adList.add(ad);
+        ad = new AD();
+        ad.setLink("http://112.74.166.187:8443/modules/activities/client/images/uploads/a22822d5110e810779e0c3dc06990f93");
+        adList.add(ad);
+        ad = new AD();
+        ad.setLink("http://112.74.166.187:8443/modules/activities/client/images/uploads/b198616e49ffb9e0529c69cfad844efb");
+        adList.add(ad);
+        activityAdapter = new ActivityAdapter(activitiesList,getContext());
+        activityAdapter.setHeaderData(adList);
     }
+
     public void initViews(){
         rv_activities = (RecyclerView)view.findViewById(R.id.rv_activities);
         swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipeRefreshLayout);
@@ -62,22 +95,27 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         swipeRefreshLayout.setColorSchemeResources(R.color.colorTheme);
 //        mSwipeLayout.setSize(SwipeRefreshLayout.LARGE);
         rv_activities.setLayoutManager(new LinearLayoutManager(getContext()));
-        activityAdapter = new ActivityAdapter(activitiesList,getContext());
         rv_activities.setAdapter(activityAdapter);
         activityAdapter.setOnItemClickLitener(new ActivityAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(int position) {
-                System.out.println(position);
-//                View view = LayoutInflater.from(H).inflate(R.layout.snackbar_default,null);
-//                TextView tv_msg = (TextView)view.findViewById(R.id.tv_msg);
-//                tv_msg.setText(position + "");
-//                SnackBarUtil.showSanckBarUtil(view,"test");
+                LogUtil.info(position + "");
             }
         });
     }
 
-    public void initHeader(ActivityAdapter activityAdapter){
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_header,rv_activities,false);
+    public void refreshHeader(ActivityAdapter activityAdapter){
+        OkHttpUtil.get(HttpUtil.URL_IP + HttpUtil.URL_ACTIVITIES, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                System.out.println("get ACTIVITIES fail");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+            }
+        });
     }
 
     @Override
@@ -85,7 +123,6 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-
                 swipeRefreshLayout.setRefreshing(false);
             }
         }, 3000);
