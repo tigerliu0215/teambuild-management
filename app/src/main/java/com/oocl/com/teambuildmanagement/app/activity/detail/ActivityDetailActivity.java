@@ -11,8 +11,8 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 
 import com.oocl.com.teambuildmanagement.R;
+import com.oocl.com.teambuildmanagement.common.HttpDict;
 import com.oocl.com.teambuildmanagement.model.vo.TeamActivity;
-import com.oocl.com.teambuildmanagement.util.HttpUtil;
 import com.oocl.com.teambuildmanagement.util.JsonUtil;
 import com.oocl.com.teambuildmanagement.util.OkHttpUtil;
 
@@ -75,7 +75,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
     }
 
     public void getActivityDetailData(String id){
-        OkHttpUtil.get(HttpUtil.URL_IP + HttpUtil.URL_ACTIVITIES + id, new Callback() {
+        OkHttpUtil.get(HttpDict.URL_IP + HttpDict.URL_ACTIVITIES + id, new Callback() {
 
             @Override
             public void onFailure(Call call, IOException e) {
