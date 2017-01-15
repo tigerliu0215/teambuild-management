@@ -11,6 +11,8 @@ public class HttpDict {
 
     public static final String URL_POPULAR_IMAGES = "/api/popular-images";
 
+    public static final String URL_AUTH_SIGNIN = "/api/auth/signin";
+
 
 
 

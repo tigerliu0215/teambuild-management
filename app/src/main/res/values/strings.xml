@@ -15,9 +15,14 @@
 
 
     <string name="home_activity_title">Home</string>
+    <string name="login_activity_title">Login</string>
+    <string name="emailOrUsername">Email Or Username</string>
+    <string name="password">Password</string>
+    <string name="usernameOrPassword_empty">用户名或者密码不能为空</string>
+    <string name="login_fail">login fail</string>
 
     <string name="login_in">登  录</string>
     <string name="my_votes">我的投票</string>
     <string name="my_collect">我的收藏</string>
-    <string name="login_out">退出登录</string>
+    <string name="login_out">退出当前账号</string>
 </resources>

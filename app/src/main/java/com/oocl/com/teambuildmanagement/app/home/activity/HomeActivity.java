@@ -1,5 +1,6 @@
 package com.oocl.com.teambuildmanagement.app.home.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.oocl.com.teambuildmanagement.R;
 import com.oocl.com.teambuildmanagement.app.home.fragment.HomeFragment;
 import com.oocl.com.teambuildmanagement.app.home.fragment.MineFragment;
+import com.oocl.com.teambuildmanagement.util.LogUtil;
 
 /**
  * Author：Jonas Yu on 2017/1/2 02:47
@@ -34,6 +36,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView iv_home;
     private ImageView iv_activity;
     private ImageView iv_mine;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +109,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.fl_activity:
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
 

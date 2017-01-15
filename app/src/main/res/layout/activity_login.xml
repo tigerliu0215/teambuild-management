@@ -3,14 +3,46 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/actionBar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/actionbar_default"
+            >
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/login_activity_title"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                />
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
     <EditText
+        android:id="@+id/et_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/emailOrUsername"
+        android:maxLines="1"
+        android:textSize="@dimen/font_l"
         android:padding="@dimen/default_padding"/>
     <EditText
+        android:id="@+id/et_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/default_padding"/>
-
+        android:hint="@string/password"
+        android:maxLines="1"
+        android:textSize="@dimen/font_l"
+        android:inputType="textPassword"
+        android:padding="@dimen/default_padding"
+        />
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/login_in"/>
 </LinearLayout>

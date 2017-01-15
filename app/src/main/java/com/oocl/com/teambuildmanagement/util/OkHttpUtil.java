@@ -49,10 +49,15 @@ public class OkHttpUtil {
 
     public static void postByJson(String url,String json,Callback callback){
         RequestBody body = RequestBody.create(JSON, null==json?"":json);
+        LogUtil.info("json " + json);
         Request.Builder builder = new Request.Builder();
         builder.url(url);
         builder.post(body);
-        builder.addHeader("Cookie",SharedPreferenceUtil.getString(App.getContext(), SharedPreferenceDict.USER_SESSION_COOKIE,""));
+        String tempCookie = SharedPreferenceUtil.getString(App.getContext(), SharedPreferenceDict.USER_SESSION_COOKIE,"");
+        if(!tempCookie.equals("")){
+            LogUtil.info("cookie " + tempCookie);
+            builder.addHeader("Cookie",tempCookie);
+        }
         Request request = builder.build();
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(callback);

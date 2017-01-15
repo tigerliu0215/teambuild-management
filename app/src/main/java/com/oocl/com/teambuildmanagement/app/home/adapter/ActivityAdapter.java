@@ -96,7 +96,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                     {
                         int pos = holder.getLayoutPosition();
                         mOnItemClickListener.onItemClick(pos);
-                        SnackBarUtil.showSanckBarUtil(holder.ll_content,"Activity List item " + holder.getAdapterPosition());
                     }
                 });
             }

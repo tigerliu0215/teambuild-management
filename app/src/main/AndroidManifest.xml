@@ -37,6 +37,11 @@
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
             />
+        <activity
+            android:name="com.oocl.com.teambuildmanagement.app.login.activity.LoginActivity"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"
+            />
 			
 		<!--eden part-->
 		<activity android:name="com.oocl.com.teambuildmanagement.app.activity.detail.ActivityDetailActivity">
