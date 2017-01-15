@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/actionBar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/actionbar_default"
+            >
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="详情"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                />
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <!--header-->
+    <TextView
+        android:id="@+id/subject"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="主题" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/creator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="创建者：" />
+
+        <TextView
+            android:id="@+id/creatorVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Doris" />
+
+        <TextView
+            android:id="@+id/createDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="创建日期：" />
+
+        <TextView
+            android:id="@+id/createDateVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2016-11-22" />
+
+        <ImageButton
+            android:id="@+id/likeViewBtn"
+            android:layout_width="80px"
+            android:layout_height="80px"
+            android:background="@mipmap/good"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/likeCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11" />
+
+        <ImageButton
+            android:id="@+id/collectViewBtn"
+            android:layout_width="80px"
+            android:layout_height="80px"
+            android:background="@mipmap/favorite"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/collectCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11" />
+    </LinearLayout>
+
+    <!--body-->
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:fillViewport="false"
+        android:scrollbars="none">
+
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            />
+    </ScrollView>
+
+    <!--bottom btn-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/commentBtn"
+            android:layout_width="200px"
+            android:layout_height="wrap_content"
+            android:text="评论" />
+
+        <Button
+            android:id="@+id/likeBtn"
+            android:layout_width="200px"
+            android:layout_height="wrap_content"
+            android:text="点赞" />
+
+        <Button
+            android:id="@+id/collectBtn"
+            android:layout_width="200px"
+            android:layout_height="wrap_content"
+            android:text="收藏" />
+    </LinearLayout>
+</LinearLayout>
+
+
+

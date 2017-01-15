@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <!--header-->
+    <TextView
+        android:id="@+id/subject"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="主题" />
+
+
+
+    <!--body-->
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/sv_channel"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:fillViewport="false"
+        android:scrollbars="none">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/bodyLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioGroup
+                android:id="@+id/RadioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/RadioButton01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20px"
+                    android:text="单选" />
+
+                <RadioButton
+                    android:id="@+id/RadioButton02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="多选" />
+            </RadioGroup>
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20px"
+                android:layout_marginTop="10px"
+                android:gravity="top|left"
+                android:hint="输入描述500字以内"
+                android:inputType="textMultiLine"
+                android:lines="8"
+                android:maxLines="20"
+                android:minLines="6"
+                android:scrollbars="vertical" />
+
+
+            <!--button list-->
+            <Button
+                android:id="@+id/hiddenPlusBtn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Hidden Plus Btn"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/minusL1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/minusBtn1"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:background="@mipmap/round_close_fill"
+                    android:scaleType="fitXY" />
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="March" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/minusL2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/minusBtn2"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:background="@mipmap/round_close_fill"
+                    android:scaleType="fitXY" />
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Febury" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/plusL"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/plusBtn"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:background="@mipmap/round_add"
+                    android:scaleType="fitXY" />
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="January" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</LinearLayout>
+

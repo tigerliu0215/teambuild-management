@@ -30,5 +30,6 @@ dependencies {
     compile 'com.squareup.okio:okio:1.11.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.google.code.gson:gson:2.8.0'
+	compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
     testCompile 'junit:junit:4.12'
 }

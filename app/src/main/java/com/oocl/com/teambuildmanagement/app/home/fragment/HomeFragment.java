@@ -1,27 +1,25 @@
 package com.oocl.com.teambuildmanagement.app.home.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.oocl.com.teambuildmanagement.R;
+import com.oocl.com.teambuildmanagement.app.activity.detail.ActivityDetailActivity;
 import com.oocl.com.teambuildmanagement.app.home.adapter.ActivityAdapter;
 import com.oocl.com.teambuildmanagement.model.vo.AD;
 import com.oocl.com.teambuildmanagement.model.vo.TeamActivity;
 import com.oocl.com.teambuildmanagement.util.HttpUtil;
 import com.oocl.com.teambuildmanagement.util.LogUtil;
 import com.oocl.com.teambuildmanagement.util.OkHttpUtil;
-import com.oocl.com.teambuildmanagement.util.SnackBarUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -100,6 +98,9 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             @Override
             public void onItemClick(int position) {
                 LogUtil.info(position + "");
+                Intent intent = new Intent(view.getContext(), ActivityDetailActivity.class);
+                intent.putExtra("id", "587842f99b6ffa3bf20fe66d");
+                startActivity(intent);
             }
         });
     }
