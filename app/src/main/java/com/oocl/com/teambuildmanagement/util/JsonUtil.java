@@ -2,6 +2,9 @@ package com.oocl.com.teambuildmanagement.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 
 /**
  * Author：Jonas Yu on 2017/1/2 00:50
@@ -19,8 +22,24 @@ public class JsonUtil {
 
 
     public static <T> T fromJson(String json, Class<T> classOfT) {
-        Gson gson = new Gson();
-        return gson.fromJson(json, classOfT);
+        try{
+            Gson gson = new Gson();
+            return gson.fromJson(json, classOfT);
+        }catch (Throwable t){
+
+        }
+        return null;
     }
+
+    public static <T> T fromJson(String json, TypeToken<T> type) {
+        try{
+            Gson gson = new Gson();
+            return gson.fromJson(json, type.getType());
+        }catch (Throwable t){
+
+        }
+        return null;
+    }
+
 
 }

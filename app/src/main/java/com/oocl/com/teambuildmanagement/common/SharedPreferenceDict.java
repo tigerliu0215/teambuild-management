@@ -6,4 +6,8 @@ package com.oocl.com.teambuildmanagement.common;
 
 public class SharedPreferenceDict {
     public final static String USER_SESSION_COOKIE = "USER_SESSION_COOKIE";
+
+    public final static String LOGIN_STATUS = "LOGIN_STATUS";
+
+    public final static String USER_PROFILE = "USER_PROFILE";
 }

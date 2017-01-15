@@ -1,9 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
+
+    <LinearLayout
+        android:id="@+id/ll_logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="12323"/>
+        android:orientation="vertical"
+        android:padding="@dimen/default_padding"
+        >
+        <Button
+            android:id="@+id/btn_login"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_in"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/tv_my_collect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/my_collect"
+            android:padding="@dimen/default_padding"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorInterval"
+            />
+        <TextView
+            android:id="@+id/tv_my_votes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/my_votes"
+            android:padding="@dimen/default_padding"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorInterval"
+            />
+        <TextView
+            android:id="@+id/tv_login_out"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login_out"
+            android:padding="@dimen/default_padding"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorInterval"
+            />
+    </LinearLayout>
 </LinearLayout>
