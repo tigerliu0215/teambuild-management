@@ -22,6 +22,7 @@ public class TeamActivity {
     private List<Attachment> attachments;
     private String htmlContent;
     private String title;
+    private String summary;
 
 
     public String get_id() {
@@ -118,5 +119,13 @@ public class TeamActivity {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 }

@@ -15,4 +15,9 @@
 
 
     <string name="home_activity_title">Home</string>
+
+    <string name="login_in">登  录</string>
+    <string name="my_votes">我的投票</string>
+    <string name="my_collect">我的收藏</string>
+    <string name="login_out">退出登录</string>
 </resources>

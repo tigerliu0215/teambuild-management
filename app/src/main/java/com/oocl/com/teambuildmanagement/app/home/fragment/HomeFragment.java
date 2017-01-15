@@ -2,26 +2,26 @@ package com.oocl.com.teambuildmanagement.app.home.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.google.gson.reflect.TypeToken;
 import com.oocl.com.teambuildmanagement.R;
 import com.oocl.com.teambuildmanagement.app.home.adapter.ActivityAdapter;
 import com.oocl.com.teambuildmanagement.model.vo.AD;
 import com.oocl.com.teambuildmanagement.model.vo.TeamActivity;
-import com.oocl.com.teambuildmanagement.util.HttpUtil;
+import com.oocl.com.teambuildmanagement.common.HttpDict;
+import com.oocl.com.teambuildmanagement.model.vo.TeamActivityVo;
+import com.oocl.com.teambuildmanagement.util.JsonUtil;
 import com.oocl.com.teambuildmanagement.util.LogUtil;
 import com.oocl.com.teambuildmanagement.util.OkHttpUtil;
-import com.oocl.com.teambuildmanagement.util.SnackBarUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,13 +43,18 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private List<TeamActivity> activitiesList;
     private SwipeRefreshLayout swipeRefreshLayout;
     private List<AD> adList;
+    private Handler refreshUiHandler;
+    private int flag = 0;
+    private final int REFRESH_UI_FLAG = 1;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_home, container, false);
-            refreshDatas();
             initViews();
+            initHandler();
+            closeOrShowRefreshUI(true);
+            refreshData();
         }
         ViewGroup viewGroup = (ViewGroup) view.getParent();
         if (viewGroup != null) {
@@ -58,73 +63,113 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         return view;
     }
 
-    public void refreshDatas(){
-        activitiesList = new ArrayList<>();
-        TeamActivity teamActivity = new TeamActivity();
-        teamActivity.setTitle("test1");
-        activitiesList.add(teamActivity);
-        teamActivity = new TeamActivity();
-        teamActivity.setTitle("test2");
-        activitiesList.add(teamActivity);
-
-        adList = new ArrayList<>();
-        AD ad = new AD();
-        ad.setLink("http://112.74.166.187:8443/modules/activities/client/images/uploads/b198616e49ffb9e0529c69cfad844efb");
-        adList.add(ad);
-        ad = new AD();
-        ad.setLink("http://112.74.166.187:8443/modules/activities/client/images/uploads/a22822d5110e810779e0c3dc06990f93");
-        adList.add(ad);
-        ad = new AD();
-        ad.setLink("http://112.74.166.187:8443/modules/activities/client/images/uploads/b198616e49ffb9e0529c69cfad844efb");
-        adList.add(ad);
-        ad = new AD();
-        ad.setLink("http://112.74.166.187:8443/modules/activities/client/images/uploads/a22822d5110e810779e0c3dc06990f93");
-        adList.add(ad);
-        ad = new AD();
-        ad.setLink("http://112.74.166.187:8443/modules/activities/client/images/uploads/b198616e49ffb9e0529c69cfad844efb");
-        adList.add(ad);
-        activityAdapter = new ActivityAdapter(activitiesList,getContext());
-        activityAdapter.setHeaderData(adList);
+    public void initHandler(){
+        refreshUiHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what){
+                    case REFRESH_UI_FLAG:
+                        refreshUI();
+                        break;
+                }
+            }
+        };
     }
 
     public void initViews(){
         rv_activities = (RecyclerView)view.findViewById(R.id.rv_activities);
         swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setDistanceToTriggerSync(300);// 设置手指在屏幕下拉多少距离会触发下拉刷新
+        swipeRefreshLayout.setDistanceToTriggerSync(300);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorTheme);
-//        mSwipeLayout.setSize(SwipeRefreshLayout.LARGE);
+        adList = new ArrayList<AD>();
+        activitiesList = new ArrayList<>();
+        activityAdapter = new ActivityAdapter(activitiesList,getContext());
+        activityAdapter.setHeaderData(adList);
         rv_activities.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_activities.setAdapter(activityAdapter);
         activityAdapter.setOnItemClickLitener(new ActivityAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(int position) {
-                LogUtil.info(position + "");
-            }
-        });
-    }
-
-    public void refreshHeader(ActivityAdapter activityAdapter){
-        OkHttpUtil.get(HttpUtil.URL_IP + HttpUtil.URL_ACTIVITIES, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                System.out.println("get ACTIVITIES fail");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-
+                //
             }
         });
     }
 
     @Override
     public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
+        LogUtil.info("onRefresh");
+        flag = 0;
+        refreshData();
+    }
+
+    public void refreshData(){
+        flag = 0;
+        updateADData();
+        updateActivitiesData();
+    }
+
+    public void closeOrShowRefreshUI(boolean isShow){
+        swipeRefreshLayout.setRefreshing(isShow);
+    }
+
+    public void updateActivitiesData(){
+        OkHttpUtil.get(HttpDict.URL_IP + HttpDict.URL_ACTIVITIES, new Callback() {
             @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(false);
+            public void onFailure(Call call, IOException e) {
+                flag++;
+                refreshUiHandler.sendEmptyMessage(1);
             }
-        }, 3000);
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.code() == 200){
+                    TeamActivityVo teamActivityVo = JsonUtil.fromJson(response.body().string(),TeamActivityVo.class);
+                    if(null != teamActivityVo && null != teamActivityVo.getData() && teamActivityVo.getData().size() > 0){
+                        activitiesList.clear();
+                        activitiesList.addAll(teamActivityVo.getData());
+                    }
+                }else{
+
+                }
+                flag++;
+                refreshUiHandler.sendEmptyMessage(1);
+            }
+
+        });
+    }
+    public void updateADData(){
+        OkHttpUtil.get(HttpDict.URL_IP + HttpDict.URL_POPULAR_IMAGES, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                flag++;
+                refreshUiHandler.sendEmptyMessage(1);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.code() == 200){
+                    List<AD> tempList = JsonUtil.fromJson(response.body().string(),new TypeToken<ArrayList<AD>>(){});
+                    if(null != tempList && tempList.size() > 0){
+                        adList.clear();
+                        adList.addAll(tempList);
+                    }
+                }else{
+
+                }
+                flag++;
+                refreshUiHandler.sendEmptyMessage(1);
+            }
+        });
+
+    }
+    public void refreshUI(){
+        if(flag == 2){
+            closeOrShowRefreshUI(false);
+            if(!rv_activities.isComputingLayout()){
+                LogUtil.info("refreshUI");
+                activityAdapter.notifyDataSetChanged();
+            }
+        }
     }
 }
