@@ -100,10 +100,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()){
             case R.id.fl_home:
                 fl_home.setSelected(true);
+                tvToolTitle.setText(getResources().getString(R.string.home_fragment_title));
                 chooseFragment(homeFragment);
                 break;
             case R.id.fl_mine:
                 fl_mine.setSelected(true);
+                tvToolTitle.setText(getResources().getString(R.string.mine_fragment_title));
                 chooseFragment(mineFragment);
                 break;
             case R.id.fl_activity:

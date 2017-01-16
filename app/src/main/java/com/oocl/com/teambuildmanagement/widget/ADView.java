@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.oocl.com.teambuildmanagement.R;
+import com.oocl.com.teambuildmanagement.app.activity.detail.ActivityDetailActivity;
 import com.oocl.com.teambuildmanagement.model.vo.AD;
 import com.oocl.com.teambuildmanagement.util.ImageUtil;
 import com.oocl.com.teambuildmanagement.util.LogUtil;
@@ -174,13 +175,14 @@ public class ADView extends RelativeLayout {
         }
     }
 
-    public void openUrl() {
+    public String openUrl() {
         if (listAD == null) {
-            return;
+            return null;
         }
         final AD ad = listAD.get(index);
         LogUtil.info("ad index " + index);
         LogUtil.info("ad url " + ad.getLink());
+        return ad.getActivityId();
     }
 
     public void start() {

@@ -92,10 +92,10 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         rv_activities.setAdapter(activityAdapter);
         activityAdapter.setOnItemClickLitener(new ActivityAdapter.OnItemClickLitener() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(int position,String activityId) {
                 LogUtil.info(position + "");
                 Intent intent = new Intent(view.getContext(), ActivityDetailActivity.class);
-                intent.putExtra("id", "587842f99b6ffa3bf20fe66d");
+                intent.putExtra("id", activityId);
                 startActivity(intent);
             }
         });

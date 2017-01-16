@@ -6,9 +6,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.oocl.com.teambuildmanagement.R;
 import com.oocl.com.teambuildmanagement.app.home.fragment.MineFragment;
@@ -43,6 +45,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private final int LOGIN_FAIL = 2;
     private String username;
     private String password;
+    private TextView tvToolTitle;
+    private Toolbar toolbar;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +61,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         et_password = (EditText)findViewById(R.id.et_password);
         et_password.setText(SharedPreferenceUtil.getString(LoginActivity.this,SharedPreferenceDict.PASSWORD,""));
         btn_login = (Button)findViewById(R.id.btn_login);
-
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        tvToolTitle = (TextView) findViewById(R.id.toolbar_title);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         btn_login.setOnClickListener(this);
         handler = new Handler() {
             @Override

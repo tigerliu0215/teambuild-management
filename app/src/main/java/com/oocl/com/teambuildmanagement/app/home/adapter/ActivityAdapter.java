@@ -67,7 +67,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                     }
                     if (x1 != -1 && x2 != -1) {
                         if (Math.abs(x1 - x2) < 50) {
-                            holder.adView.openUrl();
+                            String activityId = holder.adView.openUrl();
+                            mOnItemClickListener.onItemClick(0,activityId);
                         }
                         x1 = -1;
                         x2 = -1;
@@ -81,7 +82,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             TeamActivity tempData = dataList.get(position - headerNum);
             holder.tv_title.setText(tempData.getTitle());
             holder.tv_desc.setText(tempData.getSummary());
-            holder.tv_date.setText(null != tempData.getCreated() && tempData.getCreated().length() >= 10?tempData.getCreated().substring(0,11):"");
+            holder.tv_date.setText(null != tempData.getCreated() && tempData.getCreated().length() >= 10?tempData.getCreated().substring(0,10):"");
             if(null != tempData.getAttachments() && tempData.getAttachments().size() > 0){
                 ImageUtil.show(context,tempData.getAttachments().get(0).getLink(),holder.iv_activity);
             }else{
@@ -95,7 +96,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                     public void onClick(View v)
                     {
                         int pos = holder.getLayoutPosition();
-                        mOnItemClickListener.onItemClick(pos);
+                        mOnItemClickListener.onItemClick(pos,dataList.get(pos - headerNum).get_id());
                     }
                 });
             }
@@ -148,7 +149,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
     public interface OnItemClickLitener
     {
-        void onItemClick(int position);
+        void onItemClick(int position,String activityId);
     }
 
 }

@@ -14,7 +14,8 @@
     </string>
 
 
-    <string name="home_activity_title">Home</string>
+    <string name="home_fragment_title">Home</string>
+    <string name="mine_fragment_title">Mine</string>
     <string name="login_activity_title">Login</string>
     <string name="emailOrUsername">Email Or Username</string>
     <string name="password">Password</string>

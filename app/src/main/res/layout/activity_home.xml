@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
     <android.support.design.widget.AppBarLayout
         android:id="@+id/actionBar_layout"
         android:layout_width="match_parent"
@@ -12,15 +16,17 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             style="@style/actionbar_default"
+            app:layout_scrollFlags="scroll|enterAlways"
             >
             <TextView
                 android:id="@+id/toolbar_title"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/home_activity_title"
+                android:text="@string/home_fragment_title"
                 android:textColor="#FFFFFF"
-                android:textSize="20sp"
+                android:textSize="@dimen/font_xl"
                 />
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
@@ -98,3 +104,4 @@
         </LinearLayout>
     </FrameLayout>
 </RelativeLayout>
+    </android.support.design.widget.CoordinatorLayout>
