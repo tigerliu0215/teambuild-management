@@ -23,10 +23,14 @@ public class OkHttpUtil {
     public static final OkHttpClient mOkHttpClient = new OkHttpClient();
 
     public static void get(String url, Callback callback){
-        Request request = new Request.Builder()
-                .url(url)
-                .addHeader("Cookie",SharedPreferenceUtil.getString(App.getContext(), SharedPreferenceDict.USER_SESSION_COOKIE,""))
-                .build();
+        Request.Builder builder = new Request.Builder();
+        builder.url(url);
+        String tempCookie = SharedPreferenceUtil.getString(App.getContext(), SharedPreferenceDict.USER_SESSION_COOKIE,"");
+        if(!tempCookie.equals("")){
+            LogUtil.info("cookie " + tempCookie);
+            builder.addHeader("Cookie",tempCookie);
+        }
+        Request request = builder.build();
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(callback);
     }

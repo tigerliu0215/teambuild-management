@@ -42,6 +42,11 @@
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
             />
+        <activity
+            android:name="com.oocl.com.teambuildmanagement.app.myCollect.activity.MyCollectActivity"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"
+            />
 			
 		<!--eden part-->
 		<activity

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.oocl.com.teambuildmanagement.R;
 import com.oocl.com.teambuildmanagement.app.home.activity.HomeActivity;
 import com.oocl.com.teambuildmanagement.app.login.activity.LoginActivity;
+import com.oocl.com.teambuildmanagement.app.myCollect.activity.MyCollectActivity;
 import com.oocl.com.teambuildmanagement.app.welcome.activity.WelcomeActivity;
 import com.oocl.com.teambuildmanagement.common.SharedPreferenceDict;
 import com.oocl.com.teambuildmanagement.util.SharedPreferenceUtil;
@@ -79,6 +80,8 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                 startActivityForResult(intent,31);
                 break;
             case R.id.tv_my_collect:
+                Intent myCollectIntent = new Intent(getContext(),MyCollectActivity.class);
+                startActivity(myCollectIntent);
                 break;
             case R.id.tv_my_votes:
                 break;
