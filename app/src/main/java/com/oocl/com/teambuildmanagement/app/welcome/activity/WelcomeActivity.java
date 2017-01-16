@@ -44,7 +44,7 @@ public class WelcomeActivity extends AppCompatActivity implements Animation.Anim
     public void initViews(){
         iv_welcome = (ImageView)findViewById(R.id.iv_welcome);
         animation = AnimationUtils.loadAnimation(this,R.anim.anim_welcome);
-        Picasso.with(this).load("http://112.74.166.187:8443/modules/activities/client/images/uploads/b198616e49ffb9e0529c69cfad844efb").into(iv_welcome);
+        Picasso.with(this).load("http://112.74.166.187:8443/modules/activities/client/img/mobile-welcome.jpg").into(iv_welcome);
 //        iv_welcome.setImageResource(R.mipmap.welcome);
         animation.setFillEnabled(true); //启动Fill保持
         animation.setFillAfter(true);  //设置动画的最后一帧是保持在View上面

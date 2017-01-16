@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#039BE5</color>
-    <color name="colorPrimaryDark">#03A9F4</color>
+    <!--<color name="colorPrimary">#039BE5</color>-->
+    <!--<color name="colorPrimaryDark">#03A9F4</color>-->
+    <color name="colorPrimary">#f57c00</color>
+    <color name="colorPrimaryDark">#ef6c00</color>
     <color name="colorAccent">#FF4081</color>
 
     <color name="white">#FFFFFF</color>
-    <color name="colorTheme">#03A9F4</color>
+    <!--<color name="colorTheme">#03A9F4</color>-->
     <color name="colorInterval">#eeeeee</color>
+    <color name="colorBackground">#F0F0F0</color>
+
+    <color name="colorTheme">#f57c00</color>
+    <color name="colorThemePlus">#ef6c00</color>
 </resources>

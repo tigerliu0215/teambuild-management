@@ -26,10 +26,11 @@ import java.util.List;
  */
 
 public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHolder>{
-
+    public static final String VOTE_TYPE = "VOTE_TYPE";
+    public static final String ACTIVITY_TYPE = "ACTIVITY_TYPE";
     private List<TeamActivity> dataList;
     private Context context;
-    private OnItemClickLitener mOnItemClickListener;
+    private OnItemClickListener mOnItemClickListener;
     private int headerNum = 0;
     private List<AD> adDatas;
     private float x1 = -1;
@@ -68,7 +69,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                     if (x1 != -1 && x2 != -1) {
                         if (Math.abs(x1 - x2) < 50) {
                             String activityId = holder.adView.openUrl();
-                            mOnItemClickListener.onItemClick(0,activityId);
+                            mOnItemClickListener.onItemClick(0,activityId,ACTIVITY_TYPE);
                         }
                         x1 = -1;
                         x2 = -1;
@@ -86,7 +87,11 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             if(null != tempData.getAttachments() && tempData.getAttachments().size() > 0){
                 ImageUtil.show(context,tempData.getAttachments().get(0).getLink(),holder.iv_activity);
             }else{
-
+                if(null == tempData.getVotings() || tempData.getVotings().size() == 0){
+                    holder.iv_activity.setImageResource(R.mipmap.news);
+                }else{
+                    holder.iv_activity.setImageResource(R.mipmap.vote);
+                }
             }
             if (mOnItemClickListener != null)
             {
@@ -96,7 +101,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                     public void onClick(View v)
                     {
                         int pos = holder.getLayoutPosition();
-                        mOnItemClickListener.onItemClick(pos,dataList.get(pos - headerNum).get_id());
+                        TeamActivity clickActivity = dataList.get(pos - headerNum);
+                        mOnItemClickListener.onItemClick(pos,clickActivity.get_id(),null == clickActivity.getVotings() || clickActivity.getVotings().size() == 0?ACTIVITY_TYPE:VOTE_TYPE);
                     }
                 });
             }
@@ -142,14 +148,14 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         this.headerNum = 0;
     }
 
-    public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener)
+    public void setOnItemClickLitener(OnItemClickListener mOnItemClickLitener)
     {
         this.mOnItemClickListener = mOnItemClickLitener;
     }
 
-    public interface OnItemClickLitener
+    public interface OnItemClickListener
     {
-        void onItemClick(int position,String activityId);
+        void onItemClick(int position,String activityId,String type);
     }
 
 }

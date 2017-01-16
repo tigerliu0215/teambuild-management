@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TeambuildManagement</string>
+    <string name="app_name">HI</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -17,6 +17,7 @@
     <string name="home_fragment_title">Home</string>
     <string name="mine_fragment_title">Mine</string>
     <string name="login_activity_title">Login</string>
+    <string name="my_collect_activity_title">My Collections</string>
     <string name="emailOrUsername">Email Or Username</string>
     <string name="password">Password</string>
     <string name="usernameOrPassword_empty">用户名或者密码不能为空</string>

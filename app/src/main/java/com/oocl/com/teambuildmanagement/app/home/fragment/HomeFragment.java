@@ -90,10 +90,14 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         activityAdapter.setHeaderData(adList);
         rv_activities.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_activities.setAdapter(activityAdapter);
-        activityAdapter.setOnItemClickLitener(new ActivityAdapter.OnItemClickLitener() {
+        activityAdapter.setOnItemClickLitener(new ActivityAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position,String activityId) {
-                LogUtil.info(position + "");
+            public void onItemClick(int position,String activityId,String type) {
+                if(ActivityAdapter.VOTE_TYPE.equals(type)){  //vote
+                    LogUtil.info("VOTE_TYPE Click");
+                }else{
+                    LogUtil.info("ACTIVITY_TYPE Click"); // activity
+                }
                 Intent intent = new Intent(view.getContext(), ActivityDetailActivity.class);
                 intent.putExtra("id", activityId);
                 startActivity(intent);
