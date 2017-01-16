@@ -44,7 +44,10 @@
             />
 			
 		<!--eden part-->
-		<activity android:name="com.oocl.com.teambuildmanagement.app.activity.detail.ActivityDetailActivity">
+		<activity
+            android:name="com.oocl.com.teambuildmanagement.app.activity.detail.ActivityDetailActivity"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait">
         </activity>
 		
 		<activity

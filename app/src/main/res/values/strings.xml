@@ -26,4 +26,6 @@
     <string name="my_votes">我的投票</string>
     <string name="my_collect">我的收藏</string>
     <string name="login_out">退出当前账号</string>
+    <string name="like">点  赞</string>
+    <string name="collect">收  藏</string>
 </resources>

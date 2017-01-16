@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
@@ -15,6 +16,7 @@ import com.oocl.com.teambuildmanagement.common.HttpDict;
 import com.oocl.com.teambuildmanagement.model.vo.TeamActivity;
 import com.oocl.com.teambuildmanagement.util.JsonUtil;
 import com.oocl.com.teambuildmanagement.util.OkHttpUtil;
+import com.oocl.com.teambuildmanagement.util.SnackBarUtil;
 
 import java.io.IOException;
 
@@ -27,15 +29,16 @@ public class ActivityDetailActivity extends AppCompatActivity {
     private Button commentBtn;
     private Button likeBtn;
     private Button collectBtn;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         commentBtn = (Button) findViewById(R.id.commentBtn);
@@ -93,6 +96,12 @@ public class ActivityDetailActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_detail_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
     //返回上级
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -100,6 +109,13 @@ public class ActivityDetailActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.menu_action_like:
+                SnackBarUtil.showSanckBarUtil(toolbar,"点赞");
+                break;
+            case R.id.menu_action_collect:
+                SnackBarUtil.showSanckBarUtil(toolbar,"收藏");
+                break;
+
         }
         return true;
     }
