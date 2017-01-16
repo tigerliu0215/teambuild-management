@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.oocl.com.teambuildmanagement.R;
 import com.oocl.com.teambuildmanagement.app.home.fragment.HomeFragment;
 import com.oocl.com.teambuildmanagement.app.home.fragment.MineFragment;
-import com.oocl.com.teambuildmanagement.util.LogUtil;
+import com.oocl.com.teambuildmanagement.app.vote.VoteCreateActivity;
 
 /**
  * Author：Jonas Yu on 2017/1/2 02:47
@@ -109,6 +109,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 chooseFragment(mineFragment);
                 break;
             case R.id.fl_activity:
+                Intent intent = new Intent(view.getContext(), VoteCreateActivity.class);
+                startActivity(intent);
                 break;
         }
     }

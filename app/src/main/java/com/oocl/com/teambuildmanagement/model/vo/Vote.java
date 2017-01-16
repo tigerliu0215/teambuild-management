@@ -11,6 +11,28 @@ public class Vote {
     private List<Option> options;
     private String selectionType;
     private String title;
+    private String description;
+    private boolean isVoted;
+
+    public boolean isVoted() {
+        return isVoted;
+    }
+
+    public void setVoted(boolean voted) {
+        isVoted = voted;
+    }
+
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
 
     public String getVisibility() {
         return visibility;
@@ -44,53 +66,7 @@ public class Vote {
         this.title = title;
     }
 
-    class Option{
-        private List<VoteDetail> voteDetails;
-        private String description;
-        private int sequence;
 
-        public List<VoteDetail> getVoteDetails() {
-            return voteDetails;
-        }
 
-        public void setVoteDetails(List<VoteDetail> voteDetails) {
-            this.voteDetails = voteDetails;
-        }
 
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public int getSequence() {
-            return sequence;
-        }
-
-        public void setSequence(int sequence) {
-            this.sequence = sequence;
-        }
-    }
-    class VoteDetail{
-        private String created;
-        private String createdBy;
-
-        public String getCreated() {
-            return created;
-        }
-
-        public void setCreated(String created) {
-            this.created = created;
-        }
-
-        public String getCreatedBy() {
-            return createdBy;
-        }
-
-        public void setCreatedBy(String createdBy) {
-            this.createdBy = createdBy;
-        }
-    }
 }

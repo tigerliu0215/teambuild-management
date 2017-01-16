@@ -17,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 import com.oocl.com.teambuildmanagement.R;
 import com.oocl.com.teambuildmanagement.app.activity.detail.ActivityDetailActivity;
 import com.oocl.com.teambuildmanagement.app.home.adapter.ActivityAdapter;
+import com.oocl.com.teambuildmanagement.app.vote.VoteActivity;
 import com.oocl.com.teambuildmanagement.model.vo.AD;
 import com.oocl.com.teambuildmanagement.model.vo.TeamActivity;
 import com.oocl.com.teambuildmanagement.common.HttpDict;
@@ -95,12 +96,16 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             public void onItemClick(int position,String activityId,String type) {
                 if(ActivityAdapter.VOTE_TYPE.equals(type)){  //vote
                     LogUtil.info("VOTE_TYPE Click");
+                    Intent intent = new Intent(view.getContext(), VoteActivity.class);
+                    intent.putExtra("id", activityId);
+                    startActivity(intent);
                 }else{
                     LogUtil.info("ACTIVITY_TYPE Click"); // activity
+                    Intent intent = new Intent(view.getContext(), ActivityDetailActivity.class);
+                    intent.putExtra("id", activityId);
+                    startActivity(intent);
                 }
-                Intent intent = new Intent(view.getContext(), ActivityDetailActivity.class);
-                intent.putExtra("id", activityId);
-                startActivity(intent);
+
             }
         });
     }

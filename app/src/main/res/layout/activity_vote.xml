@@ -3,9 +3,28 @@
     android:id="@+id/main"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/actionBar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/actionbar_default"
+            >
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="投票"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                />
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 
     <!--header-->
     <TextView
@@ -44,7 +63,7 @@
             android:text="2016-11-22" />
 
         <ImageButton
-            android:id="@+id/likeBtn"
+            android:id="@+id/likeViewBtn"
             android:layout_width="80px"
             android:layout_height="80px"
             android:background="@mipmap/good"
@@ -57,7 +76,7 @@
             android:text="11" />
 
         <ImageButton
-            android:id="@+id/collectBtn"
+            android:id="@+id/collectViewBtn"
             android:layout_width="80px"
             android:layout_height="80px"
             android:background="@mipmap/favorite"
@@ -86,6 +105,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/description"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20px"
@@ -94,51 +114,6 @@
 
 
             <!--choices list-->
-            <LinearLayout
-                android:id="@+id/minusL1"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="March" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/minusL2"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="feb" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/plusL"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="January" />
-
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
@@ -150,16 +125,19 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/voteBtn"
             android:layout_width="200px"
             android:layout_height="wrap_content"
-            android:text="评论" />
+            android:text="投票" />
 
         <Button
+            android:id="@+id/likeBtn"
             android:layout_width="200px"
             android:layout_height="wrap_content"
             android:text="点赞" />
 
         <Button
+            android:id="@+id/collectBtn"
             android:layout_width="200px"
             android:layout_height="wrap_content"
             android:text="收藏" />

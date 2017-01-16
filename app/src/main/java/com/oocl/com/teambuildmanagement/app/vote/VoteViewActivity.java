@@ -1,82 +1,298 @@
 package com.oocl.com.teambuildmanagement.app.vote;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.oocl.com.teambuildmanagement.R;
+import com.oocl.com.teambuildmanagement.common.HttpDict;
+import com.oocl.com.teambuildmanagement.model.vo.Option;
+import com.oocl.com.teambuildmanagement.model.vo.TeamActivity;
+import com.oocl.com.teambuildmanagement.util.JsonUtil;
+import com.oocl.com.teambuildmanagement.util.LogUtil;
+import com.oocl.com.teambuildmanagement.util.OkHttpUtil;
+import com.oocl.com.teambuildmanagement.util.SnackBarUtil;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class VoteViewActivity extends AppCompatActivity {
+
+    private Button likeBtn;
+    private Button collectBtn;
+    private Toolbar toolbar;
+
+    private TextView subjectTxtView;
+    private TextView creatorValTxtView;
+    private TextView createDateValTxtView;
+    private TextView collectCountTxtView;
+    private TextView likeCountTxtView;
+    private TextView descriptionTxtView;
+    private BarChart chart;
+
+
+    private TeamActivity teamActivity;
+    private Handler refreshUiHandler;
+    private int flag = 0;
+    private final int REFRESH_UI_FLAG = 1;
+    private final int REFRESH_LIKE_DATA_FLAG = 3;
+    private final int REFRESH_COLLECT_DATA_FLAG = 4;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vote_view);
 
-        BarChart chart = (BarChart) findViewById(R.id.chart);
+        initHandler();
+        final String activityId = this.getIntent().getCharSequenceExtra("id").toString();
+        System.out.println(activityId);
+        this.getActivityDetailData(activityId);
 
-        BarData data = new BarData(getXAxisValues(), getDataSet());
-        chart.setData(data);
-        chart.setDescription("");
-        chart.animateXY(2000, 2000);
-        chart.invalidate();
+        subjectTxtView = (TextView) findViewById(R.id.subject);
+        creatorValTxtView = (TextView) findViewById(R.id.creatorVal);
+        createDateValTxtView = (TextView) findViewById(R.id.createDateVal);
+        collectCountTxtView = (TextView) findViewById(R.id.collectCount);
+        likeCountTxtView = (TextView) findViewById(R.id.likeCount);
+        descriptionTxtView = (TextView) findViewById(R.id.description);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        likeBtn = (Button) findViewById(R.id.likeBtn);
+        likeBtn.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getLikesData(activityId);
+            }
+        });
+
+        collectBtn = (Button) findViewById(R.id.collectBtn);
+        collectBtn.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getCollectsData(activityId);
+            }
+        });
+
+        //画柱状图
+        chart = (BarChart) findViewById(R.id.chart);
+
     }
 
-    private ArrayList<BarDataSet> getDataSet() {
-        ArrayList<BarDataSet> dataSets = null;
+    public void getActivityDetailData(String id){
+        OkHttpUtil.get(HttpDict.URL_IP + HttpDict.URL_ACTIVITIES + "/" + id, new Callback() {
 
-//        ArrayList<BarEntry> valueSet1 = new ArrayList<>();
-//        BarEntry v1e1 = new BarEntry(110.000f, 0); // Jan
-//        valueSet1.add(v1e1);
-//        BarEntry v1e2 = new BarEntry(40.000f, 1); // Feb
-//        valueSet1.add(v1e2);
-//        BarEntry v1e3 = new BarEntry(60.000f, 2); // Mar
-//        valueSet1.add(v1e3);
-//        BarEntry v1e4 = new BarEntry(30.000f, 3); // Apr
-//        valueSet1.add(v1e4);
-//        BarEntry v1e5 = new BarEntry(90.000f, 4); // May
-//        valueSet1.add(v1e5);
-//        BarEntry v1e6 = new BarEntry(100.000f, 5); // Jun
-//        valueSet1.add(v1e6);
+            @Override
+            public void onFailure(Call call, IOException e) {
+                System.out.println("get ACTIVITIES fail");
+                return;
+            }
 
-        ArrayList<BarEntry> valueSet2 = new ArrayList<>();
-        BarEntry v2e1 = new BarEntry(28.000f, 0); // Jan
-        valueSet2.add(v2e1);
-        BarEntry v2e2 = new BarEntry(32.000f, 1); // Feb
-        valueSet2.add(v2e2);
-        BarEntry v2e3 = new BarEntry(5.000f, 2); // Mar
-        valueSet2.add(v2e3);
-//        BarEntry v2e4 = new BarEntry(0.000f, 3); // Apr
-//        valueSet2.add(v2e4);
-//        BarEntry v2e5 = new BarEntry(10.000f, 4); // May
-//        valueSet2.add(v2e5);
-//        BarEntry v2e6 = new BarEntry(17.000f, 5); // Jun
-//        valueSet2.add(v2e6);
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.code() == 200) {
+                    String body = response.body().string();
+                    String jsonStr = body.substring(body.indexOf(":")+1, body.lastIndexOf("}"));
+                    teamActivity = JsonUtil.fromJson(jsonStr, TeamActivity.class);
+                    flag = 1;
+                    refreshUiHandler.sendEmptyMessage(1);
+                    System.out.println(teamActivity.getTitle());
+                }
+            }
+        });
+    }
 
-//        BarDataSet barDataSet1 = new BarDataSet(valueSet1, "Brand 1");
-//        barDataSet1.setColor(Color.rgb(0, 155, 0));
-        BarDataSet barDataSet2 = new BarDataSet(valueSet2, "人数");
-        barDataSet2.setColors(ColorTemplate.COLORFUL_COLORS);
+    //返回上级
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.menu_action_like:
+                SnackBarUtil.showSanckBarUtil(toolbar,"点赞");
+                break;
+            case R.id.menu_action_collect:
+                SnackBarUtil.showSanckBarUtil(toolbar,"收藏");
+                break;
 
-        dataSets = new ArrayList<>();
-//        dataSets.add(barDataSet1);
-        dataSets.add(barDataSet2);
+        }
+        return true;
+    }
+
+    public void getLikesData(String id){
+        OkHttpUtil.get(HttpDict.URL_IP + HttpDict.URL_ACTIVITIES + HttpDict.URL_ACTION_LIKE + "/" + id, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                System.out.println("get Activity Like fail");
+                return;
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.code() == 200) {
+                    String body = response.body().string();
+                    String jsonStr = body.substring(body.indexOf(":")+1, body.lastIndexOf("}"));
+                    teamActivity = JsonUtil.fromJson(jsonStr, TeamActivity.class);
+                    flag = 3;
+                    refreshUiHandler.sendEmptyMessage(3);
+                    System.out.println(teamActivity.getTitle());
+                }
+            }
+        });
+    }
+
+    public void getCollectsData(String id){
+        OkHttpUtil.get(HttpDict.URL_IP + HttpDict.URL_ACTIVITIES + HttpDict.URL_ACTION_COLLECT + "/" + id, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                System.out.println("get Activity collects fail");
+                return;
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.code() == 200) {
+                    String body = response.body().string();
+                    String jsonStr = body.substring(body.indexOf(":")+1, body.lastIndexOf("}"));
+                    teamActivity = JsonUtil.fromJson(jsonStr, TeamActivity.class);
+                    flag = 4;
+                    refreshUiHandler.sendEmptyMessage(4);
+                    System.out.println(teamActivity.getTitle());
+                }
+            }
+        });
+    }
+
+    public void initHandler(){
+        refreshUiHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what){
+                    case REFRESH_UI_FLAG:
+                        refreshUI();
+                        break;
+                    case REFRESH_LIKE_DATA_FLAG:
+                        refreshLikeData();;
+                        break;
+                    case REFRESH_COLLECT_DATA_FLAG:
+                        refreshCollectData();;
+                        break;
+                }
+            }
+        };
+    }
+
+    public void refreshUI(){
+        if(flag == 1){
+            LogUtil.info("refreshUI");
+            subjectTxtView.setText(teamActivity.getTitle());
+            creatorValTxtView.setText(teamActivity.getCreatedBy().getDisplayName());
+            createDateValTxtView.setText(teamActivity.getCreated().substring(0,10));
+            if (teamActivity.getCollects() != null && teamActivity.getCollects().size() != 0) {
+                collectCountTxtView.setText(String.valueOf(teamActivity.getCollects().size()));
+            } else {
+                collectCountTxtView.setText("0");
+            }
+            if (teamActivity.getLikes() != null && teamActivity.getLikes().size() != 0) {
+                likeCountTxtView.setText(String.valueOf(teamActivity.getLikes().size()));
+            } else {
+                likeCountTxtView.setText("0");
+            }
+            descriptionTxtView.setText(teamActivity.getVotings().get(0).getDescription());
+
+            List<Option> optionList = teamActivity.getVotings().get(0).getOptions();
+            BarData data = new BarData(getXAxisValues(optionList), getDataSet(optionList));
+            chart.setData(data);
+            chart.setDescription("");
+            chart.animateXY(2000, 2000);
+            chart.invalidate();
+        }
+    }
+
+    private ArrayList<BarDataSet> getDataSet(List<Option> optionList) {
+        ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
+        ArrayList<BarEntry> valueSet = new ArrayList<>();
+        for (int i = 0; i < optionList.size(); i++) {
+            Option option = optionList.get(optionList.size() - 1 - i);
+            BarEntry barEntry = new BarEntry(option.getVoteDetails().size(), i);
+            valueSet.add(barEntry);
+        }
+        BarDataSet barDataSet = new BarDataSet(valueSet, "人数");
+        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        //设置柱状上方数值的格式
+        barDataSet.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value,
+                                            com.github.mikephil.charting.data.Entry entry,
+                                            int dataSetIndex, ViewPortHandler viewPortHandler) {
+                int n = (int) value;
+                return n + "";
+            }
+        });
+
+        dataSets.add(barDataSet);
         return dataSets;
     }
 
-    private ArrayList<String> getXAxisValues() {
+    private ArrayList<String> getXAxisValues(List<Option> optionList) {
         ArrayList<String> xAxis = new ArrayList<>();
-        xAxis.add("JAN");
-        xAxis.add("FEB");
-        xAxis.add("MAR");
-//        xAxis.add("APR");
-//        xAxis.add("MAY");
-//        xAxis.add("JUN");
+        for (int i = 0; i < optionList.size(); i++)  {
+            Option option = optionList.get(optionList.size() - 1 - i);
+            xAxis.add(option.getDescription());
+        }
         return xAxis;
+    }
+
+
+    public void refreshLikeData(){
+        if(flag == 3){
+            LogUtil.info("refresh Like DATA");
+            if (teamActivity.getLikes() != null && teamActivity.getLikes().size() != 0) {
+                likeCountTxtView.setText(String.valueOf(teamActivity.getLikes().size()));
+            } else {
+                likeCountTxtView.setText("0");
+            }
+        }
+    }
+
+    public void refreshCollectData(){
+        if(flag == 4){
+            LogUtil.info("refresh Collect DATA");
+            if (teamActivity.getCollects() != null && teamActivity.getCollects().size() != 0) {
+                collectCountTxtView.setText(String.valueOf(teamActivity.getCollects().size()));
+            } else {
+                collectCountTxtView.setText("0");
+            }
+        }
+    }
+
+    //Web视图
+    private class HelloWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
     }
 }

@@ -1,20 +1,25 @@
 package com.oocl.com.teambuildmanagement.app.activity.detail;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.oocl.com.teambuildmanagement.R;
+import com.oocl.com.teambuildmanagement.app.comment.CommentActivity;
 import com.oocl.com.teambuildmanagement.common.HttpDict;
 import com.oocl.com.teambuildmanagement.model.vo.TeamActivity;
 import com.oocl.com.teambuildmanagement.util.JsonUtil;
+import com.oocl.com.teambuildmanagement.util.LogUtil;
 import com.oocl.com.teambuildmanagement.util.OkHttpUtil;
 import com.oocl.com.teambuildmanagement.util.SnackBarUtil;
 
@@ -31,10 +36,45 @@ public class ActivityDetailActivity extends AppCompatActivity {
     private Button collectBtn;
     private Toolbar toolbar;
 
+    private TextView subjectTxtView;
+    private TextView creatorValTxtView;
+    private TextView createDateValTxtView;
+    private TextView collectCountTxtView;
+    private TextView likeCountTxtView;
+
+    private TeamActivity teamActivity;
+    private Handler refreshUiHandler;
+    private int flag = 0;
+    private final int REFRESH_UI_FLAG = 1;
+    private final int REFRESH_LIKE_DATA_FLAG = 3;
+    private final int REFRESH_COLLECT_DATA_FLAG = 4;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        final String activityId = this.getIntent().getCharSequenceExtra("id").toString();
+        webview = (WebView) findViewById(R.id.webview);
+        webview.getSettings().setJavaScriptEnabled(true);
+        webview.loadUrl("http://112.74.166.187:8443/activities/" + activityId + "/mobile");
+        webview.setWebViewClient(new HelloWebViewClient ());
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        initHandler();
+        final String activityId = this.getIntent().getCharSequenceExtra("id").toString();
+        System.out.println(activityId);
+        this.getActivityDetailData(activityId);
+
+        subjectTxtView = (TextView) findViewById(R.id.subject);
+        creatorValTxtView = (TextView) findViewById(R.id.creatorVal);
+        createDateValTxtView = (TextView) findViewById(R.id.createDateVal);
+        collectCountTxtView = (TextView) findViewById(R.id.collectCount);
+        likeCountTxtView = (TextView) findViewById(R.id.likeCount);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -45,7 +85,9 @@ public class ActivityDetailActivity extends AppCompatActivity {
         commentBtn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //// TODO: 2017/1/15
+                Intent intent = new Intent(ActivityDetailActivity.this, CommentActivity.class);
+                intent.putExtra("id", activityId);
+                startActivity(intent);
             }
         });
 
@@ -53,7 +95,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
         likeBtn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //// TODO: 2017/1/15
+                getLikesData(activityId);
             }
         });
 
@@ -61,12 +103,9 @@ public class ActivityDetailActivity extends AppCompatActivity {
         collectBtn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //// TODO: 2017/1/15
+                getCollectsData(activityId);
             }
         });
-
-        String activityId = this.getIntent().getCharSequenceExtra("id").toString();
-        System.out.println(activityId);
 
         webview = (WebView) findViewById(R.id.webview);
         //设置WebView属性，能够执行Javascript脚本
@@ -78,7 +117,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
     }
 
     public void getActivityDetailData(String id){
-        OkHttpUtil.get(HttpDict.URL_IP + HttpDict.URL_ACTIVITIES + id, new Callback() {
+        OkHttpUtil.get(HttpDict.URL_IP + HttpDict.URL_ACTIVITIES + "/" + id, new Callback() {
 
             @Override
             public void onFailure(Call call, IOException e) {
@@ -90,7 +129,11 @@ public class ActivityDetailActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.code() == 200) {
                     String body = response.body().string();
-                    TeamActivity teamActivity = JsonUtil.fromJson(body, TeamActivity.class);
+                    String jsonStr = body.substring(body.indexOf(":")+1, body.lastIndexOf("}"));
+                    teamActivity = JsonUtil.fromJson(jsonStr, TeamActivity.class);
+                    flag = 1;
+                    refreshUiHandler.sendEmptyMessage(1);
+                    System.out.println(teamActivity.getTitle());
                 }
             }
         });
@@ -118,6 +161,108 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
         }
         return true;
+    }
+
+    public void getLikesData(String id){
+        OkHttpUtil.get(HttpDict.URL_IP + HttpDict.URL_ACTIVITIES + HttpDict.URL_ACTION_LIKE + "/" + id, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                System.out.println("get Activity Like fail");
+                return;
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.code() == 200) {
+                    String body = response.body().string();
+                    String jsonStr = body.substring(body.indexOf(":")+1, body.lastIndexOf("}"));
+                    teamActivity = JsonUtil.fromJson(jsonStr, TeamActivity.class);
+                    flag = 3;
+                    refreshUiHandler.sendEmptyMessage(3);
+                    System.out.println(teamActivity.getTitle());
+                }
+            }
+        });
+    }
+
+    public void getCollectsData(String id){
+        OkHttpUtil.get(HttpDict.URL_IP + HttpDict.URL_ACTIVITIES + HttpDict.URL_ACTION_COLLECT + "/" + id, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                System.out.println("get Activity collects fail");
+                return;
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.code() == 200) {
+                    String body = response.body().string();
+                    String jsonStr = body.substring(body.indexOf(":")+1, body.lastIndexOf("}"));
+                    teamActivity = JsonUtil.fromJson(jsonStr, TeamActivity.class);
+                    flag = 4;
+                    refreshUiHandler.sendEmptyMessage(4);
+                    System.out.println(teamActivity.getTitle());
+                }
+            }
+        });
+    }
+
+    public void initHandler(){
+        refreshUiHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what){
+                    case REFRESH_UI_FLAG:
+                        refreshUI();
+                        break;
+                    case REFRESH_LIKE_DATA_FLAG:
+                        refreshLikeData();;
+                        break;
+                    case REFRESH_COLLECT_DATA_FLAG:
+                        refreshCollectData();;
+                        break;
+                }
+            }
+        };
+    }
+
+    public void refreshUI(){
+        if(flag == 1){
+            LogUtil.info("refreshUI");
+            subjectTxtView.setText(teamActivity.getTitle());
+            creatorValTxtView.setText(teamActivity.getCreatedBy().getDisplayName());
+            createDateValTxtView.setText(teamActivity.getCreated().substring(0,10));
+            if (teamActivity.getCollects() != null && teamActivity.getCollects().size() != 0) {
+                collectCountTxtView.setText(String.valueOf(teamActivity.getCollects().size()));
+            } else {
+                collectCountTxtView.setText("0");
+            }
+            if (teamActivity.getLikes() != null && teamActivity.getLikes().size() != 0) {
+                likeCountTxtView.setText(String.valueOf(teamActivity.getLikes().size()));
+            } else {
+                likeCountTxtView.setText("0");
+            }
+        }
+    }
+
+    public void refreshLikeData(){
+        if(flag == 3){
+            LogUtil.info("refresh Like DATA");
+            if (teamActivity.getLikes() != null && teamActivity.getLikes().size() != 0) {
+                likeCountTxtView.setText(String.valueOf(teamActivity.getLikes().size()));
+            } else {
+                likeCountTxtView.setText("0");
+            }
+        }
+    }
+
+    public void refreshCollectData(){
+        if(flag == 4){
+            LogUtil.info("refresh Collect DATA");
+            if (teamActivity.getCollects() != null && teamActivity.getCollects().size() != 0) {
+                collectCountTxtView.setText(String.valueOf(teamActivity.getCollects().size()));
+            } else {
+                collectCountTxtView.setText("0");
+            }
+        }
     }
 
 //    @Override

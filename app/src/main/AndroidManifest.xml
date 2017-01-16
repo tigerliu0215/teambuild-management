@@ -68,6 +68,7 @@
             android:name="com.oocl.com.teambuildmanagement.app.vote.VoteViewActivity"
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
+		<activity android:name=".app.comment.CommentActivity"></activity>
     </application>
 
 </manifest>

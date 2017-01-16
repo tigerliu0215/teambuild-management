@@ -9,6 +9,14 @@ public class HttpDict {
 
     public static final String URL_ACTIVITIES = "/api/activities";
 
+    public static final String URL_ACTION_LIKE = "/action/like";
+
+    public static final String URL_ACTION_COLLECT = "/action/collect";
+
+    public static final String URL_ACTION_COMMMNET = "/comments/publish";
+
+    public static final String URL_ACTION_VOTE = "/action/vote";
+
     public static final String URL_POPULAR_IMAGES = "/api/popular-images";
 
     public static final String URL_AUTH_SIGNIN = "/api/auth/signin";
