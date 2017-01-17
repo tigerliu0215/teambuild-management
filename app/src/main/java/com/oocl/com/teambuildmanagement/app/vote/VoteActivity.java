@@ -1,6 +1,7 @@
 package com.oocl.com.teambuildmanagement.app.vote;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,8 +19,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.oocl.com.teambuildmanagement.R;
-import com.oocl.com.teambuildmanagement.app.activity.detail.ActivityDetailActivity;
-import com.oocl.com.teambuildmanagement.app.comment.CommentActivity;
 import com.oocl.com.teambuildmanagement.common.HttpDict;
 import com.oocl.com.teambuildmanagement.model.vo.Option;
 import com.oocl.com.teambuildmanagement.model.vo.TeamActivity;
@@ -281,8 +280,9 @@ public class VoteActivity extends AppCompatActivity {
                     Option option = optionList.get(i);
 
                     RadioButton radioButton = new RadioButton(getApplicationContext());
-                    LinearLayout.LayoutParams radioButtonLayoutParams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    LinearLayout.LayoutParams radioButtonLayoutParams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
                     radioButton.setText(option.getDescription());
+                    radioButton.setTextColor(Color.rgb(0, 0, 0));
                     radioButton.setId(View.generateViewId());
                     if (i == 0) {radioButton.setChecked(true);}
                     radioGroup.addView(radioButton, radioButtonLayoutParams);
@@ -300,6 +300,7 @@ public class VoteActivity extends AppCompatActivity {
 
                     TextView textView = new TextView(getApplicationContext());
                     textView.setText(option.getDescription());
+                    textView.setTextColor(Color.rgb(0, 0, 0));
                     LinearLayout.LayoutParams textViewLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     optionLayout.addView(textView, textViewLayoutParams);
                 }

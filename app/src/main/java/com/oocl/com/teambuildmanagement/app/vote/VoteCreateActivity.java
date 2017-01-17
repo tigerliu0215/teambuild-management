@@ -3,6 +3,9 @@ package com.oocl.com.teambuildmanagement.app.vote;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +23,7 @@ import com.oocl.com.teambuildmanagement.model.vo.VoteVo;
 import com.oocl.com.teambuildmanagement.util.JsonUtil;
 import com.oocl.com.teambuildmanagement.util.LogUtil;
 import com.oocl.com.teambuildmanagement.util.OkHttpUtil;
+import com.oocl.com.teambuildmanagement.util.SnackBarUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,6 +44,8 @@ public class VoteCreateActivity extends AppCompatActivity {
     LinearLayout minusL2;
     LinearLayout plusL;
     LinearLayout bodyLayout;
+
+    private Toolbar toolbar;
 
     ImageButton minusBtn1;
     ImageButton minusBtn2;
@@ -64,6 +70,11 @@ public class VoteCreateActivity extends AppCompatActivity {
         subject = (EditText)findViewById(R.id.subject);
         radioGroup = (RadioGroup)findViewById(R.id.RadioGroup);
         descriptionEditTxt = (EditText)findViewById(R.id.description);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         minusBtn1 = (ImageButton)findViewById(R.id.minusBtn1);
         minusBtn2 = (ImageButton)findViewById(R.id.minusBtn2);
@@ -192,5 +203,29 @@ public class VoteCreateActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_detail_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    //返回上级
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.menu_action_like:
+                SnackBarUtil.showSanckBarUtil(toolbar,"点赞");
+                break;
+            case R.id.menu_action_collect:
+                SnackBarUtil.showSanckBarUtil(toolbar,"收藏");
+                break;
+
+        }
+        return true;
     }
 }
