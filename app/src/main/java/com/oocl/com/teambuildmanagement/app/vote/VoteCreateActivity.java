@@ -1,6 +1,7 @@
 package com.oocl.com.teambuildmanagement.app.vote;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -149,6 +150,7 @@ public class VoteCreateActivity extends AppCompatActivity {
                 EditText editText = new EditText(getApplicationContext());
                 LinearLayout.LayoutParams newEditTextLayoutParams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 editText.setLayoutParams(newEditTextLayoutParams);
+                editText.setTextColor(Color.rgb(0, 0, 0));
 //                editText.setHint("添加新选项");
                 plusLayout.addView(editText);
 
@@ -224,7 +226,6 @@ public class VoteCreateActivity extends AppCompatActivity {
             case R.id.menu_action_collect:
                 SnackBarUtil.showSanckBarUtil(toolbar,"收藏");
                 break;
-
         }
         return true;
     }
