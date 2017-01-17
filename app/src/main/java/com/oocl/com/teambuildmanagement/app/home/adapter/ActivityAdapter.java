@@ -1,7 +1,6 @@
 package com.oocl.com.teambuildmanagement.app.home.adapter;
 
 import android.content.Context;
-import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -16,7 +15,6 @@ import com.oocl.com.teambuildmanagement.model.vo.AD;
 import com.oocl.com.teambuildmanagement.model.vo.TeamActivity;
 import com.oocl.com.teambuildmanagement.util.ImageUtil;
 import com.oocl.com.teambuildmanagement.util.LogUtil;
-import com.oocl.com.teambuildmanagement.util.SnackBarUtil;
 import com.oocl.com.teambuildmanagement.widget.ADView;
 
 import java.util.List;
@@ -27,6 +25,7 @@ import java.util.List;
 
 public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHolder>{
     public static final String VOTE_TYPE = "VOTE_TYPE";
+    public static final String VOTE_VIEW_TYPE = "VOTE_VIEW_TYPE";
     public static final String ACTIVITY_TYPE = "ACTIVITY_TYPE";
     private List<TeamActivity> dataList;
     private Context context;
@@ -102,7 +101,13 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                     {
                         int pos = holder.getLayoutPosition();
                         TeamActivity clickActivity = dataList.get(pos - headerNum);
-                        mOnItemClickListener.onItemClick(pos,clickActivity.get_id(),null == clickActivity.getVotings() || clickActivity.getVotings().size() == 0?ACTIVITY_TYPE:VOTE_TYPE);
+                        String type;
+                        if (null == clickActivity.getVotings() || clickActivity.getVotings().size() == 0) {
+                            type = ACTIVITY_TYPE;
+                        } else {
+                            type = clickActivity.getVotings().get(0).isVoted()? VOTE_VIEW_TYPE : VOTE_TYPE;
+                        }
+                        mOnItemClickListener.onItemClick(pos,clickActivity.get_id(),type);
                     }
                 });
             }

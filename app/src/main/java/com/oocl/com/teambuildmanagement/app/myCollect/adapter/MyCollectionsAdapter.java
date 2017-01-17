@@ -10,10 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.oocl.com.teambuildmanagement.R;
-import com.oocl.com.teambuildmanagement.app.home.adapter.ActivityAdapter;
 import com.oocl.com.teambuildmanagement.model.vo.TeamActivity;
 import com.oocl.com.teambuildmanagement.util.ImageUtil;
-import com.oocl.com.teambuildmanagement.widget.ADView;
 
 import java.util.List;
 
@@ -23,6 +21,7 @@ import java.util.List;
 
 public class MyCollectionsAdapter extends RecyclerView.Adapter<MyCollectionsAdapter.ViewHolder>{
     public static final String VOTE_TYPE = "VOTE_TYPE";
+    public static final String VOTE_VIEW_TYPE = "VOTE_VIEW_TYPE";
     public static final String ACTIVITY_TYPE = "ACTIVITY_TYPE";
     private List<TeamActivity> collectionsData;
     private Context context;
@@ -65,7 +64,13 @@ public class MyCollectionsAdapter extends RecyclerView.Adapter<MyCollectionsAdap
                 {
                     int pos = holder.getLayoutPosition();
                     TeamActivity clickActivity = collectionsData.get(pos);
-                    onItemClickListener.onItemClick(pos,clickActivity.get_id(),null == clickActivity.getVotings() || clickActivity.getVotings().size() == 0?ACTIVITY_TYPE:VOTE_TYPE);
+                    String type;
+                    if (null == clickActivity.getVotings() || clickActivity.getVotings().size() == 0) {
+                        type = ACTIVITY_TYPE;
+                    } else {
+                        type = clickActivity.getVotings().get(0).isVoted()? VOTE_VIEW_TYPE : VOTE_TYPE;
+                    }
+                    onItemClickListener.onItemClick(pos,clickActivity.get_id(),type);
                 }
             });
         }
