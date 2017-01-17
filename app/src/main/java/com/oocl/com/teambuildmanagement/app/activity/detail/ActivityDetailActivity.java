@@ -1,6 +1,7 @@
 package com.oocl.com.teambuildmanagement.app.activity.detail;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.oocl.com.teambuildmanagement.R;
@@ -41,6 +43,8 @@ public class ActivityDetailActivity extends AppCompatActivity {
     private TextView createDateValTxtView;
     private TextView collectCountTxtView;
     private TextView likeCountTxtView;
+
+    private ProgressBar progressBar;
 
     private TeamActivity teamActivity;
     private Handler refreshUiHandler;
@@ -110,10 +114,9 @@ public class ActivityDetailActivity extends AppCompatActivity {
         webview = (WebView) findViewById(R.id.webview);
         //设置WebView属性，能够执行Javascript脚本
         webview.getSettings().setJavaScriptEnabled(true);
-        //加载需要显示的网页
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        webview.setWebViewClient(new HelloWebViewClient());
         webview.loadUrl("http://112.74.166.187:8443/activities/" + activityId + "/mobile");
-        //设置Web视图
-        webview.setWebViewClient(new HelloWebViewClient ());
     }
 
     public void getActivityDetailData(String id){
@@ -276,12 +279,26 @@ public class ActivityDetailActivity extends AppCompatActivity {
 //        return false;
 //    }
 
-    //Web视图
     private class HelloWebViewClient extends WebViewClient {
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            // TODO Auto-generated method stub
+            super.onPageStarted(view, url, favicon);
+        }
+
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            progressBar.setVisibility(View.VISIBLE);
             view.loadUrl(url);
             return true;
         }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            progressBar.setVisibility(View.GONE);
+        }
     }
+
 }
