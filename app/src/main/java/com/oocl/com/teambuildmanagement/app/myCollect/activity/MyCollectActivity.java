@@ -17,6 +17,7 @@ import com.oocl.com.teambuildmanagement.app.activity.detail.ActivityDetailActivi
 import com.oocl.com.teambuildmanagement.app.home.adapter.ActivityAdapter;
 import com.oocl.com.teambuildmanagement.app.myCollect.adapter.MyCollectionsAdapter;
 import com.oocl.com.teambuildmanagement.app.vote.VoteActivity;
+import com.oocl.com.teambuildmanagement.app.vote.VoteViewActivity;
 import com.oocl.com.teambuildmanagement.common.HttpDict;
 import com.oocl.com.teambuildmanagement.model.vo.TeamActivity;
 import com.oocl.com.teambuildmanagement.model.vo.TeamActivityVo;
@@ -46,6 +47,8 @@ public class MyCollectActivity extends AppCompatActivity implements SwipeRefresh
     private Handler uiHandler;
     private final int REFRESH_FLAG = 1;
     private Toolbar toolbar;
+
+    private TeamActivity teamActivity;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,9 +67,17 @@ public class MyCollectActivity extends AppCompatActivity implements SwipeRefresh
                 //todo
                 if(ActivityAdapter.VOTE_TYPE.equals(type)){  //vote
                     LogUtil.info("VOTE_TYPE Click");
-                    Intent intent = new Intent(MyCollectActivity.this, VoteActivity.class);
-                    intent.putExtra("id", activityId);
-                    startActivity(intent);
+                    getActivityDetailData(activityId);
+                    if (teamActivity.getVotings().get(0).isVoted()) {
+                        LogUtil.info("VOTE_VIEW_TYPE Click");
+                        Intent intent = new Intent(MyCollectActivity.this, VoteViewActivity.class);
+                        intent.putExtra("id", activityId);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(MyCollectActivity.this, VoteActivity.class);
+                        intent.putExtra("id", activityId);
+                        startActivity(intent);
+                    }
                 }else{
                     LogUtil.info("ACTIVITY_TYPE Click"); // activity
                     Intent intent = new Intent(MyCollectActivity.this, ActivityDetailActivity.class);
@@ -155,5 +166,26 @@ public class MyCollectActivity extends AppCompatActivity implements SwipeRefresh
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void getActivityDetailData(String id){
+        OkHttpUtil.get(HttpDict.URL_IP + HttpDict.URL_ACTIVITIES + "/" + id, new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                System.out.println("get ACTIVITIES fail");
+                return;
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.code() == 200) {
+                    String body = response.body().string();
+                    String jsonStr = body.substring(body.indexOf(":")+1, body.lastIndexOf("}"));
+                    teamActivity = JsonUtil.fromJson(jsonStr, TeamActivity.class);
+                    System.out.println(teamActivity.getTitle());
+                }
+            }
+        });
     }
 }

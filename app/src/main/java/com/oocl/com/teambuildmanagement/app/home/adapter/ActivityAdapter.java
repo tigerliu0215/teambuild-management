@@ -101,13 +101,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                     {
                         int pos = holder.getLayoutPosition();
                         TeamActivity clickActivity = dataList.get(pos - headerNum);
-                        String type;
-                        if (null == clickActivity.getVotings() || clickActivity.getVotings().size() == 0) {
-                            type = ACTIVITY_TYPE;
-                        } else {
-                            type = clickActivity.getVotings().get(0).isVoted()? VOTE_VIEW_TYPE : VOTE_TYPE;
-                        }
-                        mOnItemClickListener.onItemClick(pos,clickActivity.get_id(),type);
+                        mOnItemClickListener.onItemClick(pos,clickActivity.get_id(),null == clickActivity.getVotings() || clickActivity.getVotings().size() == 0?ACTIVITY_TYPE:VOTE_TYPE);
                     }
                 });
             }

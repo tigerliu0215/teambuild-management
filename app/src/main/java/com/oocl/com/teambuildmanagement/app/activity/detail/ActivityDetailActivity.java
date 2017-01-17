@@ -119,7 +119,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
         webview.loadUrl("http://112.74.166.187:8443/activities/" + activityId + "/mobile");
     }
 
-    public void getActivityDetailData(String id){
+    private void getActivityDetailData(String id){
         OkHttpUtil.get(HttpDict.URL_IP + HttpDict.URL_ACTIVITIES + "/" + id, new Callback() {
 
             @Override

@@ -19,9 +19,9 @@ import com.oocl.com.teambuildmanagement.app.activity.detail.ActivityDetailActivi
 import com.oocl.com.teambuildmanagement.app.home.adapter.ActivityAdapter;
 import com.oocl.com.teambuildmanagement.app.vote.VoteActivity;
 import com.oocl.com.teambuildmanagement.app.vote.VoteViewActivity;
+import com.oocl.com.teambuildmanagement.common.HttpDict;
 import com.oocl.com.teambuildmanagement.model.vo.AD;
 import com.oocl.com.teambuildmanagement.model.vo.TeamActivity;
-import com.oocl.com.teambuildmanagement.common.HttpDict;
 import com.oocl.com.teambuildmanagement.model.vo.TeamActivityVo;
 import com.oocl.com.teambuildmanagement.util.JsonUtil;
 import com.oocl.com.teambuildmanagement.util.LogUtil;
@@ -47,6 +47,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private List<TeamActivity> activitiesList;
     private SwipeRefreshLayout swipeRefreshLayout;
     private List<AD> adList;
+    private TeamActivity teamActivity;
     private Handler refreshUiHandler;
     private int flag = 0;
     private final int REFRESH_UI_FLAG = 1;
@@ -97,21 +98,44 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             public void onItemClick(int position,String activityId,String type) {
                 if(ActivityAdapter.VOTE_TYPE.equals(type)){  //vote
                     LogUtil.info("VOTE_TYPE Click");
-                    Intent intent = new Intent(view.getContext(), VoteActivity.class);
-                    intent.putExtra("id", activityId);
-                    startActivity(intent);
+                    getActivityDetailData(activityId);
+                    if (teamActivity.getVotings().get(0).isVoted()) {
+                        LogUtil.info("VOTE_VIEW_TYPE Click");
+                        Intent intent = new Intent(view.getContext(), VoteViewActivity.class);
+                        intent.putExtra("id", activityId);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(view.getContext(), VoteActivity.class);
+                        intent.putExtra("id", activityId);
+                        startActivity(intent);
+                    }
                 }else if (ActivityAdapter.ACTIVITY_TYPE.equals(type)) {
                     LogUtil.info("ACTIVITY_TYPE Click"); // activity
                     Intent intent = new Intent(view.getContext(), ActivityDetailActivity.class);
                     intent.putExtra("id", activityId);
                     startActivity(intent);
-                } else if (ActivityAdapter.VOTE_VIEW_TYPE.equals(type)) {//vote view
-                    LogUtil.info("VOTE_VIEW_TYPE Click");
-                    Intent intent = new Intent(view.getContext(), VoteViewActivity.class);
-                    intent.putExtra("id", activityId);
-                    startActivity(intent);
                 }
+            }
+        });
+    }
 
+    private void getActivityDetailData(String id){
+        OkHttpUtil.get(HttpDict.URL_IP + HttpDict.URL_ACTIVITIES + "/" + id, new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                System.out.println("get ACTIVITIES fail");
+                return;
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.code() == 200) {
+                    String body = response.body().string();
+                    String jsonStr = body.substring(body.indexOf(":")+1, body.lastIndexOf("}"));
+                    teamActivity = JsonUtil.fromJson(jsonStr, TeamActivity.class);
+                    System.out.println(teamActivity.getTitle());
+                }
             }
         });
     }

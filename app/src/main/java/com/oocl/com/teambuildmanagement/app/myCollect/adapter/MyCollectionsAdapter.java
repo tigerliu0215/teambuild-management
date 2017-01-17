@@ -64,13 +64,7 @@ public class MyCollectionsAdapter extends RecyclerView.Adapter<MyCollectionsAdap
                 {
                     int pos = holder.getLayoutPosition();
                     TeamActivity clickActivity = collectionsData.get(pos);
-                    String type;
-                    if (null == clickActivity.getVotings() || clickActivity.getVotings().size() == 0) {
-                        type = ACTIVITY_TYPE;
-                    } else {
-                        type = clickActivity.getVotings().get(0).isVoted()? VOTE_VIEW_TYPE : VOTE_TYPE;
-                    }
-                    onItemClickListener.onItemClick(pos,clickActivity.get_id(),type);
+                    onItemClickListener.onItemClick(pos,clickActivity.get_id(),null == clickActivity.getVotings() || clickActivity.getVotings().size() == 0?ACTIVITY_TYPE:VOTE_TYPE);
                 }
             });
         }
