@@ -1,4 +1,4 @@
-package com.oocl.com.teambuildmanagement.app.myCollect.activity;
+package com.oocl.com.teambuildmanagement.app.myVote.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,9 +14,9 @@ import android.view.MenuItem;
 
 import com.oocl.com.teambuildmanagement.R;
 import com.oocl.com.teambuildmanagement.app.activity.detail.ActivityDetailActivity;
-import com.oocl.com.teambuildmanagement.app.home.adapter.ActivityAdapter;
+import com.oocl.com.teambuildmanagement.app.myCollect.activity.MyCollectActivity;
 import com.oocl.com.teambuildmanagement.app.myCollect.adapter.MyCollectionsAdapter;
-import com.oocl.com.teambuildmanagement.app.vote.VoteActivity;
+import com.oocl.com.teambuildmanagement.app.myVote.adapter.MyVoteAdapter;
 import com.oocl.com.teambuildmanagement.common.HttpDict;
 import com.oocl.com.teambuildmanagement.model.vo.TeamActivity;
 import com.oocl.com.teambuildmanagement.model.vo.TeamActivityVo;
@@ -34,45 +34,35 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 /**
- * Created by YUJO2 on 1/16/2017.
+ * Created by YUJO2 on 1/17/2017.
  */
 
-public class MyCollectActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
-
+public class MyVoteActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView rv_collections;
-    private MyCollectionsAdapter myCollectionsAdapter;
-    private List<TeamActivity> collectionList;
+    private MyVoteAdapter myVoteAdapter;
+    private List<TeamActivity> voteList;
     private Handler uiHandler;
     private final int REFRESH_FLAG = 1;
     private Toolbar toolbar;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_collect);
+        setContentView(R.layout.activity_my_vote);
         initUiHandler();
         initViews();
         refreshData();
     }
 
     public void initViews(){
-        collectionList = new ArrayList<>();
-        myCollectionsAdapter = new MyCollectionsAdapter(collectionList,MyCollectActivity.this);
-        myCollectionsAdapter.setOnItemClickListener(new MyCollectionsAdapter.OnItemClickListener() {
+        voteList = new ArrayList<>();
+        myVoteAdapter = new MyVoteAdapter(voteList,MyVoteActivity.this);
+        myVoteAdapter.setOnItemClickListener(new MyVoteAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, String activityId, String type) {
-                //todo
-                if(ActivityAdapter.VOTE_TYPE.equals(type)){  //vote
-                    LogUtil.info("VOTE_TYPE Click");
-                    Intent intent = new Intent(MyCollectActivity.this, VoteActivity.class);
-                    intent.putExtra("id", activityId);
-                    startActivity(intent);
-                }else{
-                    LogUtil.info("ACTIVITY_TYPE Click"); // activity
-                    Intent intent = new Intent(MyCollectActivity.this, ActivityDetailActivity.class);
-                    intent.putExtra("id", activityId);
-                    startActivity(intent);
-                }
+                Intent intent = new Intent(MyVoteActivity.this, ActivityDetailActivity.class);
+                intent.putExtra("id", activityId);
+                startActivity(intent);
             }
         });
 
@@ -80,14 +70,13 @@ public class MyCollectActivity extends AppCompatActivity implements SwipeRefresh
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setDistanceToTriggerSync(300);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorRefresh);
-        rv_collections = (RecyclerView)findViewById(R.id.rv_collections);
+        rv_collections = (RecyclerView)findViewById(R.id.rv_votings);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        rv_collections.setLayoutManager(new LinearLayoutManager(MyCollectActivity.this));
-        rv_collections.setAdapter(myCollectionsAdapter);
-
+        rv_collections.setLayoutManager(new LinearLayoutManager(MyVoteActivity.this));
+        rv_collections.setAdapter(myVoteAdapter);
     }
 
     public void initUiHandler(){
@@ -106,7 +95,7 @@ public class MyCollectActivity extends AppCompatActivity implements SwipeRefresh
 
     public void refreshData(){
         showRefresh(false);
-        OkHttpUtil.get(HttpDict.URL_IP + HttpDict.URL_COLLECTION, new Callback() {
+        OkHttpUtil.get(HttpDict.URL_IP + HttpDict.URL_VOTINGS, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 SnackBarUtil.showSanckBarUtil(swipeRefreshLayout,"Refresh fail");
@@ -119,22 +108,20 @@ public class MyCollectActivity extends AppCompatActivity implements SwipeRefresh
                     String responseBody = response.body().string();
                     LogUtil.info(responseBody);
                     TeamActivityVo teamActivityVo = JsonUtil.fromJson(responseBody,TeamActivityVo.class);
-
-                    collectionList.clear();
-                    if(null != teamActivityVo && null != teamActivityVo.getData() && teamActivityVo.getData().size() > 0){
-                        collectionList.addAll(teamActivityVo.getData());
-
+                    voteList.clear();
+                    if(null != teamActivityVo && null != teamActivityVo.getData()){
+                        voteList.addAll(teamActivityVo.getData());
                     }
                     uiHandler.sendEmptyMessage(REFRESH_FLAG);
                 }else{
-                   //todo judge login status
+                    //todo judge login status
                 }
             }
         });
     }
 
     public void refreshUi(){
-        myCollectionsAdapter.notifyDataSetChanged();
+        myVoteAdapter.notifyDataSetChanged();
         showRefresh(false);
     }
 
@@ -156,4 +143,5 @@ public class MyCollectActivity extends AppCompatActivity implements SwipeRefresh
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

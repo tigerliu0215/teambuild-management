@@ -47,6 +47,11 @@
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
             />
+        <activity
+            android:name="com.oocl.com.teambuildmanagement.app.myVote.activity.MyVoteActivity"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"
+            />
 			
 		<!--eden part-->
 		<activity
@@ -58,23 +63,26 @@
 		<activity
             android:name="com.oocl.com.teambuildmanagement.app.vote.VoteCreateActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/FullTheme"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
 		
         <activity android:name="com.oocl.com.teambuildmanagement.app.vote.VoteActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/FullTheme"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
 		
         <activity
             android:name="com.oocl.com.teambuildmanagement.app.vote.VoteViewActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/FullTheme"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
-		<activity android:name=".app.comment.CommentActivity"></activity>
+		<activity android:name=".app.comment.CommentActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            />
     </application>
 
 </manifest>
