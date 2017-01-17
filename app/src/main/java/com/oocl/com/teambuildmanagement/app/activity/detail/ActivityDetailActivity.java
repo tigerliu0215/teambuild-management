@@ -18,12 +18,16 @@ import android.widget.TextView;
 
 import com.oocl.com.teambuildmanagement.R;
 import com.oocl.com.teambuildmanagement.app.comment.CommentActivity;
+import com.oocl.com.teambuildmanagement.app.home.activity.HomeActivity;
+import com.oocl.com.teambuildmanagement.app.vote.VoteCreateActivity;
 import com.oocl.com.teambuildmanagement.common.HttpDict;
 import com.oocl.com.teambuildmanagement.model.vo.TeamActivity;
+import com.oocl.com.teambuildmanagement.util.DialogUtil;
 import com.oocl.com.teambuildmanagement.util.JsonUtil;
 import com.oocl.com.teambuildmanagement.util.LogUtil;
 import com.oocl.com.teambuildmanagement.util.OkHttpUtil;
 import com.oocl.com.teambuildmanagement.util.SnackBarUtil;
+import com.oocl.com.teambuildmanagement.util.ValidationUtil;
 
 import java.io.IOException;
 
@@ -89,9 +93,13 @@ public class ActivityDetailActivity extends AppCompatActivity {
         commentBtn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ActivityDetailActivity.this, CommentActivity.class);
-                intent.putExtra("id", activityId);
-                startActivity(intent);
+                if(!ValidationUtil.getInstance().validationLoginStatus(ActivityDetailActivity.this)){
+                    DialogUtil.showLoginDialog(ActivityDetailActivity.this,getString(R.string.title_logout));
+                }else{
+                    Intent intent = new Intent(ActivityDetailActivity.this, CommentActivity.class);
+                    intent.putExtra("id", activityId);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -99,7 +107,11 @@ public class ActivityDetailActivity extends AppCompatActivity {
         likeBtn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getLikesData(activityId);
+                if(!ValidationUtil.getInstance().validationLoginStatus(ActivityDetailActivity.this)){
+                    DialogUtil.showLoginDialog(ActivityDetailActivity.this,getString(R.string.title_logout));
+                }else{
+                    getLikesData(activityId);
+                }
             }
         });
 
@@ -107,7 +119,11 @@ public class ActivityDetailActivity extends AppCompatActivity {
         collectBtn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getCollectsData(activityId);
+                if(!ValidationUtil.getInstance().validationLoginStatus(ActivityDetailActivity.this)){
+                    DialogUtil.showLoginDialog(ActivityDetailActivity.this,getString(R.string.title_logout));
+                }else{
+                    getCollectsData(activityId);
+                }
             }
         });
 

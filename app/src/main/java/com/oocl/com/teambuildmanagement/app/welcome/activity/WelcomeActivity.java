@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.animation.Animation;
@@ -13,6 +14,9 @@ import android.widget.ImageView;
 
 import com.oocl.com.teambuildmanagement.R;
 import com.oocl.com.teambuildmanagement.app.home.activity.HomeActivity;
+import com.oocl.com.teambuildmanagement.common.SharedPreferenceDict;
+import com.oocl.com.teambuildmanagement.util.LogUtil;
+import com.oocl.com.teambuildmanagement.util.SharedPreferenceUtil;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -39,6 +43,11 @@ public class WelcomeActivity extends AppCompatActivity implements Animation.Anim
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         initViews();
+        if(SharedPreferenceUtil.getBoolean(WelcomeActivity.this, SharedPreferenceDict.FIRST_OPEN,true)){
+            LogUtil.info("createShortCut");
+            createShortCut();
+            SharedPreferenceUtil.putBoolean(WelcomeActivity.this,SharedPreferenceDict.FIRST_OPEN,false);
+        }
     }
 
     public void initViews(){
@@ -70,5 +79,21 @@ public class WelcomeActivity extends AppCompatActivity implements Animation.Anim
     @Override
     public void onAnimationRepeat(Animation animation) {
 
+    }
+
+    public void createShortCut(){
+        //创建快捷方式的Intent
+        Intent shortcutintent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
+        //不允许重复创建
+        shortcutintent.putExtra("duplicate", false);
+        //需要现实的名称
+        shortcutintent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(R.string.app_name));
+        //快捷图片
+        Parcelable icon = Intent.ShortcutIconResource.fromContext(WelcomeActivity.this, R.mipmap.app);
+        shortcutintent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
+        //点击快捷图片，运行的程序主入口
+        shortcutintent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, new Intent(WelcomeActivity.this, WelcomeActivity.class));
+        //发送广播。OK
+        sendBroadcast(shortcutintent);
     }
 }

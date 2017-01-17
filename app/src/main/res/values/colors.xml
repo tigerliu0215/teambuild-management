@@ -2,8 +2,8 @@
 <resources>
     <!--<color name="colorPrimary">#039BE5</color>-->
     <!--<color name="colorPrimaryDark">#03A9F4</color>-->
-    <color name="colorPrimary">#DBDBDB</color>
-    <color name="colorPrimaryDark">#DBDBDB</color>
+    <color name="colorPrimary">#FF9900</color>
+    <color name="colorPrimaryDark">#FF8900</color>
     <color name="colorAccent">#FF4081</color>
 
     <color name="white">#FFFFFF</color>
@@ -11,12 +11,12 @@
     <color name="colorInterval">#DBDBDB</color>
     <color name="colorBackground">#F0F0F0</color>
 
-    <color name="colorTheme">#DBDBDB</color>
+    <color name="colorTheme">#FF9900</color>
     <color name="colorThemePlus">#ef6c00</color>
 
-    <color name="colorTitle">#050505</color>
+    <color name="colorTitle">#ffffff</color>
     <color name="colorRefresh">#ff9900</color>
-    <color name="colorBack">#ff9900</color>
+    <color name="colorBack">#ffffff</color>
 
     <color name="btn_click_n">#ff9900</color>
     <color name="btn_click_s">#ffcc00</color>

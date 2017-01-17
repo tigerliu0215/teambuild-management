@@ -12,9 +12,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.oocl.com.teambuildmanagement.R;
+import com.oocl.com.teambuildmanagement.app.activity.detail.ActivityDetailActivity;
+import com.oocl.com.teambuildmanagement.app.vote.VoteCreateActivity;
 import com.oocl.com.teambuildmanagement.common.HttpDict;
+import com.oocl.com.teambuildmanagement.util.DialogUtil;
 import com.oocl.com.teambuildmanagement.util.LogUtil;
 import com.oocl.com.teambuildmanagement.util.OkHttpUtil;
+import com.oocl.com.teambuildmanagement.util.ValidationUtil;
 
 import java.io.IOException;
 
@@ -50,8 +54,13 @@ public class CommentActivity extends AppCompatActivity {
         commentBtn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String comment = commentEditText.getText().toString();
-                publishComment(activityId, comment);
+
+                if(!ValidationUtil.getInstance().validationLoginStatus(CommentActivity.this)){
+                    DialogUtil.showLoginDialog(CommentActivity.this,getString(R.string.title_logout));
+                }else{
+                    String comment = commentEditText.getText().toString();
+                    publishComment(activityId, comment);
+                }
             }
         });
     }
@@ -73,6 +82,10 @@ public class CommentActivity extends AppCompatActivity {
                     flag = 1;
                     refreshUiHandler.sendEmptyMessage(1);
                     finish();
+                }else{
+                    if(ValidationUtil.getInstance().validateResponse(response) == ValidationUtil.LOGIN_INVALID){
+                        DialogUtil.showLoginDialog(CommentActivity.this,getString(R.string.title_login_invalid));
+                    }
                 }
             }
         });

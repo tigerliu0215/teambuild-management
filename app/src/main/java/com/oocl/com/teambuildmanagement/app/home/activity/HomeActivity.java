@@ -2,6 +2,7 @@ package com.oocl.com.teambuildmanagement.app.home.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -15,7 +16,14 @@ import android.widget.TextView;
 import com.oocl.com.teambuildmanagement.R;
 import com.oocl.com.teambuildmanagement.app.home.fragment.HomeFragment;
 import com.oocl.com.teambuildmanagement.app.home.fragment.MineFragment;
+import com.oocl.com.teambuildmanagement.app.login.activity.LoginActivity;
 import com.oocl.com.teambuildmanagement.app.vote.VoteCreateActivity;
+import com.oocl.com.teambuildmanagement.common.SharedPreferenceDict;
+import com.oocl.com.teambuildmanagement.util.DialogUtil;
+import com.oocl.com.teambuildmanagement.util.LogUtil;
+import com.oocl.com.teambuildmanagement.util.SharedPreferenceUtil;
+import com.oocl.com.teambuildmanagement.util.ShortCutUtil;
+import com.oocl.com.teambuildmanagement.util.ValidationUtil;
 
 /**
  * Author：Jonas Yu on 2017/1/2 02:47
@@ -37,7 +45,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView iv_activity;
     private ImageView iv_mine;
 
-
+    public static final int HOME_FLAG = 1;
+    public static final int MINE_FLAG = 2;
+    private int flag = 1;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,24 +113,33 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 fl_home.setSelected(true);
                 tvToolTitle.setText(getResources().getString(R.string.home_fragment_title));
                 chooseFragment(homeFragment);
+                flag = HOME_FLAG;
                 break;
             case R.id.fl_mine:
                 clearAllChoose();
                 fl_mine.setSelected(true);
                 tvToolTitle.setText(getResources().getString(R.string.mine_fragment_title));
                 chooseFragment(mineFragment);
+                flag = MINE_FLAG;
                 break;
             case R.id.fl_activity:
-                Intent intent = new Intent(view.getContext(), VoteCreateActivity.class);
-                startActivity(intent);
+                if(!ValidationUtil.getInstance().validationLoginStatus(HomeActivity.this)){
+                    DialogUtil.showLoginDialog(HomeActivity.this,getString(R.string.title_logout));
+                }else{
+                    Intent intent = new Intent(view.getContext(), VoteCreateActivity.class);
+                    startActivity(intent);
+                }
                 break;
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        LogUtil.info("onActivityResult home Activity : " + resultCode);
+        if(LoginActivity.LOGIN_RESULT_CODE == resultCode && flag == MINE_FLAG){
+            mineFragment.refreshUI();
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
 
 }

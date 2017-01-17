@@ -18,6 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_default_bg"
+            android:textColor="@color/white"
             android:text="@string/login_in"/>
     </LinearLayout>
     <LinearLayout

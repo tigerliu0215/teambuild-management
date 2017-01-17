@@ -17,14 +17,17 @@ import android.widget.RadioGroup;
 
 import com.oocl.com.teambuildmanagement.R;
 import com.oocl.com.teambuildmanagement.app.home.activity.HomeActivity;
+import com.oocl.com.teambuildmanagement.app.myVote.activity.MyVoteActivity;
 import com.oocl.com.teambuildmanagement.common.HttpDict;
 import com.oocl.com.teambuildmanagement.model.vo.OptionVo;
 import com.oocl.com.teambuildmanagement.model.vo.Vote;
 import com.oocl.com.teambuildmanagement.model.vo.VoteVo;
+import com.oocl.com.teambuildmanagement.util.DialogUtil;
 import com.oocl.com.teambuildmanagement.util.JsonUtil;
 import com.oocl.com.teambuildmanagement.util.LogUtil;
 import com.oocl.com.teambuildmanagement.util.OkHttpUtil;
 import com.oocl.com.teambuildmanagement.util.SnackBarUtil;
+import com.oocl.com.teambuildmanagement.util.ValidationUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -198,10 +201,11 @@ public class VoteCreateActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.code() == 200) {
-                    LogUtil.info("navigate to home page");
-                    ///跳转到home page
-                    Intent intent = new Intent(VoteCreateActivity.this, HomeActivity.class);
-                    startActivity(intent);
+                    finish();
+                }else{
+                    if(ValidationUtil.getInstance().validateResponse(response) == ValidationUtil.LOGIN_NOT_AUTHORIZED){
+                        DialogUtil.showDialog(VoteCreateActivity.this,getString(R.string.title_authority_invalid),getString(R.string.error_user_create_vote_authority));
+                    }
                 }
             }
         });

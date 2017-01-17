@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private String password;
     private TextView tvToolTitle;
     private Toolbar toolbar;
+    public final static int LOGIN_RESULT_CODE = 31;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     case LOGIN_SUCC:
                         SharedPreferenceUtil.putString(LoginActivity.this, SharedPreferenceDict.USER_NAME,username);
                         SharedPreferenceUtil.putString(LoginActivity.this, SharedPreferenceDict.PASSWORD,password);
-                        setResult(MineFragment.LOGIN_REQUEST_CODE);
+                        setResult(LoginActivity.LOGIN_RESULT_CODE);
                         finish();
                         break;
                     case LOGIN_FAIL:

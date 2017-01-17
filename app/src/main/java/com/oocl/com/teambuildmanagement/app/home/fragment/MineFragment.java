@@ -19,6 +19,7 @@ import com.oocl.com.teambuildmanagement.app.myCollect.activity.MyCollectActivity
 import com.oocl.com.teambuildmanagement.app.myVote.activity.MyVoteActivity;
 import com.oocl.com.teambuildmanagement.app.welcome.activity.WelcomeActivity;
 import com.oocl.com.teambuildmanagement.common.SharedPreferenceDict;
+import com.oocl.com.teambuildmanagement.util.LogUtil;
 import com.oocl.com.teambuildmanagement.util.SharedPreferenceUtil;
 
 /**
@@ -94,15 +95,14 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                 SharedPreferenceUtil.remove(getContext(),SharedPreferenceDict.USER_PROFILE);
                 refreshUI();
                 break;
-
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if(LOGIN_REQUEST_CODE == requestCode && LOGIN_REQUEST_CODE == resultCode){
-            refreshUI();
-        }
+//        LogUtil.info("onActivityResult " + resultCode);
+//        if(LOGIN_REQUEST_CODE == resultCode){
+//            refreshUI();
+//        }
     }
 }

@@ -21,10 +21,12 @@ import com.oocl.com.teambuildmanagement.app.vote.VoteViewActivity;
 import com.oocl.com.teambuildmanagement.common.HttpDict;
 import com.oocl.com.teambuildmanagement.model.vo.TeamActivity;
 import com.oocl.com.teambuildmanagement.model.vo.TeamActivityVo;
+import com.oocl.com.teambuildmanagement.util.DialogUtil;
 import com.oocl.com.teambuildmanagement.util.JsonUtil;
 import com.oocl.com.teambuildmanagement.util.LogUtil;
 import com.oocl.com.teambuildmanagement.util.OkHttpUtil;
 import com.oocl.com.teambuildmanagement.util.SnackBarUtil;
+import com.oocl.com.teambuildmanagement.util.ValidationUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -64,7 +66,6 @@ public class MyCollectActivity extends AppCompatActivity implements SwipeRefresh
         myCollectionsAdapter.setOnItemClickListener(new MyCollectionsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, String activityId, String type) {
-                //todo
                 if(ActivityAdapter.VOTE_TYPE.equals(type)){  //vote
                     LogUtil.info("VOTE_TYPE Click");
                     getActivityDetailData(activityId);
@@ -129,6 +130,9 @@ public class MyCollectActivity extends AppCompatActivity implements SwipeRefresh
                     uiHandler.sendEmptyMessage(REFRESH_FLAG);
                 }else{
                    //todo judge login status
+                    if(ValidationUtil.getInstance().validateResponse(response) == ValidationUtil.LOGIN_INVALID){
+                        DialogUtil.showLoginDialog(MyCollectActivity.this,getString(R.string.title_login_invalid));
+                    }
                 }
             }
         });

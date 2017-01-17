@@ -55,7 +55,7 @@
                 <ImageView
                     android:id="@+id/iv_home"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
                     android:layout_gravity="center"
                     android:layout_marginTop="1.0dip"
                     android:src="@drawable/tab_bottom_home" />
@@ -71,7 +71,7 @@
                 <ImageView
                     android:id="@+id/iv_activity"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
                     android:layout_gravity="center"
                     android:layout_marginTop="1.0dip"
                     android:src="@drawable/tab_bottom_activity" />
@@ -87,7 +87,7 @@
                 <ImageView
                     android:id="@+id/iv_mine"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
                     android:layout_gravity="center"
                     android:layout_marginTop="1.0dip"
                     android:src="@drawable/tab_bottom_mine" />

@@ -30,4 +30,8 @@
     <string name="login_out">退出当前账号</string>
     <string name="like">点  赞</string>
     <string name="collect">收  藏</string>
+    <string name="title_login_invalid">登录状态已失效</string>
+    <string name="title_logout">用户未登录</string>
+    <string name="title_authority_invalid">权限不足</string>
+    <string name="error_user_create_vote_authority">您没有该权限创建投票！</string>
 </resources>

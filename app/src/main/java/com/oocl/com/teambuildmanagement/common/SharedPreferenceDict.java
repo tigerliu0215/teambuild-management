@@ -14,4 +14,6 @@ public class SharedPreferenceDict {
     public final static String USER_NAME = "USER_NAME";
 
     public final static String PASSWORD = "PASSWORD";
+
+    public final static String FIRST_OPEN = "FIRST_OPEN";
 }
