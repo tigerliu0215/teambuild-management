@@ -51,6 +51,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private Handler refreshUiHandler;
     private int flag = 0;
     private final int REFRESH_UI_FLAG = 1;
+    private final int NAVIGATE_FLAG = 9;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -76,10 +77,15 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     case REFRESH_UI_FLAG:
                         refreshUI();
                         break;
+                    case NAVIGATE_FLAG:
+                        refreshUI();
+                        break;
                 }
             }
         };
     }
+
+
 
     public void initViews(){
         rv_activities = (RecyclerView)view.findViewById(R.id.rv_activities);
@@ -99,16 +105,6 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 if(ActivityAdapter.VOTE_TYPE.equals(type)){  //vote
                     LogUtil.info("VOTE_TYPE Click");
                     getActivityDetailData(activityId);
-                    if (teamActivity.getVotings().get(0).isVoted()) {
-                        LogUtil.info("VOTE_VIEW_TYPE Click");
-                        Intent intent = new Intent(view.getContext(), VoteViewActivity.class);
-                        intent.putExtra("id", activityId);
-                        startActivity(intent);
-                    } else {
-                        Intent intent = new Intent(view.getContext(), VoteActivity.class);
-                        intent.putExtra("id", activityId);
-                        startActivity(intent);
-                    }
                 }else if (ActivityAdapter.ACTIVITY_TYPE.equals(type)) {
                     LogUtil.info("ACTIVITY_TYPE Click"); // activity
                     Intent intent = new Intent(view.getContext(), ActivityDetailActivity.class);
@@ -119,7 +115,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         });
     }
 
-    private void getActivityDetailData(String id){
+    private void getActivityDetailData(final String id){
         OkHttpUtil.get(HttpDict.URL_IP + HttpDict.URL_ACTIVITIES + "/" + id, new Callback() {
 
             @Override
@@ -134,6 +130,18 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     String body = response.body().string();
                     String jsonStr = body.substring(body.indexOf(":")+1, body.lastIndexOf("}"));
                     teamActivity = JsonUtil.fromJson(jsonStr, TeamActivity.class);
+                    if (teamActivity.getVotings().get(0).isVoted()) {
+                        LogUtil.info("VOTE_VIEW_TYPE Click");
+                        Intent intent = new Intent(view.getContext(), VoteViewActivity.class);
+                        intent.putExtra("id", id);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(view.getContext(), VoteActivity.class);
+                        intent.putExtra("id", id);
+                        startActivity(intent);
+                    }
+//                    flag = 9;
+//                    refreshUiHandler.sendEmptyMessage(9);
                     System.out.println(teamActivity.getTitle());
                 }
             }

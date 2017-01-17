@@ -68,16 +68,6 @@ public class MyCollectActivity extends AppCompatActivity implements SwipeRefresh
                 if(ActivityAdapter.VOTE_TYPE.equals(type)){  //vote
                     LogUtil.info("VOTE_TYPE Click");
                     getActivityDetailData(activityId);
-                    if (teamActivity.getVotings().get(0).isVoted()) {
-                        LogUtil.info("VOTE_VIEW_TYPE Click");
-                        Intent intent = new Intent(MyCollectActivity.this, VoteViewActivity.class);
-                        intent.putExtra("id", activityId);
-                        startActivity(intent);
-                    } else {
-                        Intent intent = new Intent(MyCollectActivity.this, VoteActivity.class);
-                        intent.putExtra("id", activityId);
-                        startActivity(intent);
-                    }
                 }else{
                     LogUtil.info("ACTIVITY_TYPE Click"); // activity
                     Intent intent = new Intent(MyCollectActivity.this, ActivityDetailActivity.class);
@@ -168,7 +158,7 @@ public class MyCollectActivity extends AppCompatActivity implements SwipeRefresh
         return super.onOptionsItemSelected(item);
     }
 
-    private void getActivityDetailData(String id){
+    private void getActivityDetailData(final String id){
         OkHttpUtil.get(HttpDict.URL_IP + HttpDict.URL_ACTIVITIES + "/" + id, new Callback() {
 
             @Override
@@ -183,7 +173,16 @@ public class MyCollectActivity extends AppCompatActivity implements SwipeRefresh
                     String body = response.body().string();
                     String jsonStr = body.substring(body.indexOf(":")+1, body.lastIndexOf("}"));
                     teamActivity = JsonUtil.fromJson(jsonStr, TeamActivity.class);
-                    System.out.println(teamActivity.getTitle());
+                    if (teamActivity.getVotings().get(0).isVoted()) {
+                        LogUtil.info("VOTE_VIEW_TYPE Click");
+                        Intent intent = new Intent(MyCollectActivity.this, VoteViewActivity.class);
+                        intent.putExtra("id", id);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(MyCollectActivity.this, VoteActivity.class);
+                        intent.putExtra("id", id);
+                        startActivity(intent);
+                    }
                 }
             }
         });

@@ -13,10 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.oocl.com.teambuildmanagement.R;
-import com.oocl.com.teambuildmanagement.app.activity.detail.ActivityDetailActivity;
-import com.oocl.com.teambuildmanagement.app.myCollect.activity.MyCollectActivity;
-import com.oocl.com.teambuildmanagement.app.myCollect.adapter.MyCollectionsAdapter;
 import com.oocl.com.teambuildmanagement.app.myVote.adapter.MyVoteAdapter;
+import com.oocl.com.teambuildmanagement.app.vote.VoteViewActivity;
 import com.oocl.com.teambuildmanagement.common.HttpDict;
 import com.oocl.com.teambuildmanagement.model.vo.TeamActivity;
 import com.oocl.com.teambuildmanagement.model.vo.TeamActivityVo;
@@ -60,7 +58,7 @@ public class MyVoteActivity extends AppCompatActivity implements SwipeRefreshLay
         myVoteAdapter.setOnItemClickListener(new MyVoteAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, String activityId, String type) {
-                Intent intent = new Intent(MyVoteActivity.this, ActivityDetailActivity.class);
+                Intent intent = new Intent(MyVoteActivity.this, VoteViewActivity.class);
                 intent.putExtra("id", activityId);
                 startActivity(intent);
             }
