@@ -13,9 +13,11 @@ public class HttpDict {
 
     public static final String URL_ACTION_COLLECT = "/action/collect";
 
-    public static final String URL_ACTION_COMMMNET = "/comments/publish";
+    public static final String URL_ACTION_COMMENT = "/comments/publish";
 
     public static final String URL_ACTION_VOTE = "/action/vote";
+
+    public static final String URL_CREATE_VOTE = "/votings/create";
 
     public static final String URL_POPULAR_IMAGES = "/api/popular-images";
 

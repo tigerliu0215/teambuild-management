@@ -57,7 +57,7 @@ public class CommentActivity extends AppCompatActivity {
     }
 
     public void publishComment(String id, String content) {
-        OkHttpUtil.postByJson(HttpDict.URL_IP + HttpDict.URL_ACTIVITIES + HttpDict.URL_ACTION_COMMMNET + "/" + id, "{\"content\":\""+content+"\"}", new Callback() {
+        OkHttpUtil.postByJson(HttpDict.URL_IP + HttpDict.URL_ACTIVITIES + HttpDict.URL_ACTION_COMMENT + "/" + id, "{\"content\":\""+content+"\"}", new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 //                handler.sendEmptyMessage(2);

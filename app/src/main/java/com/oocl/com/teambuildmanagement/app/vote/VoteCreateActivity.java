@@ -30,6 +30,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 import static android.R.attr.id;
+import static android.R.interpolator.linear;
 import static com.oocl.com.teambuildmanagement.R.id.subject;
 import static com.oocl.com.teambuildmanagement.R.mipmap.vote;
 
@@ -147,33 +148,23 @@ public class VoteCreateActivity extends AppCompatActivity {
         createVoteBtn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ImageButton plusBtn = (ImageButton)findViewById(v.getId());
-                plusBtn.setBackgroundResource(R.mipmap.round_close_fill);
-                plusBtn.setOnClickListener(new Button.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        publishNewVote();
-                    }
-                });
-
+                publishNewVote();
             }
         });
     }
 
     public void publishNewVote() {
-
         VoteVo voteVo = new VoteVo();
-        //// TODO: 2017/1/17 add option part
         List<OptionVo> optionVoList = new ArrayList<OptionVo>();
-//        for (Option option : vote.getOptions()) {
-//            OptionVo vo = new OptionVo();
-//            vo.setDescription(option.getDescription());
-//            vo.setSequence(option.getSequence());
-//            optionVoList.add(vo);
-//        }
-
+        for (int i = 3; i < bodyLayout.getChildCount(); i++) {
+            LinearLayout layout = (LinearLayout)bodyLayout.getChildAt(i);
+            EditText editText = (EditText)layout.getChildAt(1);
+            OptionVo vo = new OptionVo();
+            vo.setSequence(i - 2);
+            vo.setDescription(editText.getText().toString());
+            optionVoList.add(vo);
+        }
         voteVo.setOptions(optionVoList);
-        JsonUtil.toJson(voteVo);
 
         RadioButton radioButton = (RadioButton)findViewById(radioGroup.getCheckedRadioButtonId());
         String text = radioButton.getText().toString();
@@ -185,7 +176,7 @@ public class VoteCreateActivity extends AppCompatActivity {
         voteVo.setDescription(descriptionEditTxt.getText().toString());
         voteVo.setTitle(subject.getText().toString());
 
-        OkHttpUtil.postByJson(HttpDict.URL_IP + HttpDict.URL_ACTIVITIES + HttpDict.URL_ACTION_VOTE + "/" + id + "/" + 0, JsonUtil.toJson(voteVo), new Callback() {
+        OkHttpUtil.postByJson(HttpDict.URL_IP + HttpDict.URL_ACTIVITIES + HttpDict.URL_CREATE_VOTE , JsonUtil.toJson(voteVo), new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 //                handler.sendEmptyMessage(2);
@@ -197,7 +188,7 @@ public class VoteCreateActivity extends AppCompatActivity {
                     LogUtil.info("navigate to home page");
                     ///跳转到home page
                     Intent intent = new Intent(VoteCreateActivity.this, HomeActivity.class);
-                    startActivity(intent);
+//                    startActivity(intent);
                 }
             }
         });
