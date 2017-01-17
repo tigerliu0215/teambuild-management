@@ -31,11 +31,16 @@
         android:id="@+id/subject"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10px"
+        android:layout_marginBottom="10px"
+        android:textStyle="bold"
+        android:textSize="20sp"
         android:text="主题" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:gravity="left|center"
         android:orientation="horizontal">
 
         <TextView
@@ -54,6 +59,7 @@
             android:id="@+id/createDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20px"
             android:text="创建日期：" />
 
         <TextView
@@ -64,8 +70,9 @@
 
         <ImageButton
             android:id="@+id/likeViewBtn"
-            android:layout_width="80px"
-            android:layout_height="80px"
+            android:layout_width="50px"
+            android:layout_height="50px"
+            android:layout_marginLeft="20px"
             android:background="@mipmap/good"
             android:scaleType="fitXY" />
 
@@ -77,9 +84,10 @@
 
         <ImageButton
             android:id="@+id/collectViewBtn"
-            android:layout_width="80px"
-            android:layout_height="80px"
+            android:layout_width="50px"
+            android:layout_height="50px"
             android:background="@mipmap/favorite"
+            android:layout_marginLeft="20px"
             android:scaleType="fitXY" />
 
         <TextView

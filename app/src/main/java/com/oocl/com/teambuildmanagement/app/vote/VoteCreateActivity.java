@@ -188,7 +188,7 @@ public class VoteCreateActivity extends AppCompatActivity {
                     LogUtil.info("navigate to home page");
                     ///跳转到home page
                     Intent intent = new Intent(VoteCreateActivity.this, HomeActivity.class);
-//                    startActivity(intent);
+                    startActivity(intent);
                 }
             }
         });
