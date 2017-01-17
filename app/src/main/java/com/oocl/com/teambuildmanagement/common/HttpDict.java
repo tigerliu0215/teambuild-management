@@ -25,6 +25,8 @@ public class HttpDict {
 
     public static final String URL_COLLECTION = "/api/activities/query/collection";
 
+    public static final String URL_VOTINGS = "/api/activities/query/votings";
+
 
 
 

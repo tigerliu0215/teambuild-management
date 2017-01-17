@@ -19,7 +19,7 @@
                 android:gravity="center_vertical"
                 android:layout_gravity="center"
                 android:text="@string/login_activity_title"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/colorTitle"
                 android:textSize="@dimen/font_xl"
                 />
         </android.support.v7.widget.Toolbar>
@@ -62,7 +62,9 @@
     <Button
         android:id="@+id/btn_login"
         android:layout_margin="@dimen/default_padding"
+        android:padding="@dimen/default_padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/btn_default_bg"
         android:text="@string/login_in"/>
 </LinearLayout>

@@ -85,7 +85,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setDistanceToTriggerSync(300);
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorTheme);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorRefresh);
         adList = new ArrayList<AD>();
         activitiesList = new ArrayList<>();
         activityAdapter = new ActivityAdapter(activitiesList,getContext());
