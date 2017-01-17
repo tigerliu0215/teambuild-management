@@ -65,7 +65,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20px"
-                    android:text="单选" />
+                    android:text="单选"
+                    android:checked="true"/>
 
                 <RadioButton
                     android:id="@+id/RadioButton02"
@@ -165,8 +166,10 @@
 
         <Button
             android:id="@+id/createVoteBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200px"
+            android:layout_height="80px"
+            android:background="#ff9900"
+            android:textColor="#ffffff"
             android:text="发布新的投票" />
     </LinearLayout>
 

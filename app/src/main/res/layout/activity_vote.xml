@@ -47,12 +47,15 @@
             android:id="@+id/creator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="-10px"
+            android:textSize="12sp"
             android:text="创建者：" />
 
         <TextView
             android:id="@+id/creatorVal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="12sp"
             android:text="Doris" />
 
         <TextView
@@ -60,12 +63,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20px"
+            android:layout_marginRight="-10px"
+            android:textSize="12sp"
             android:text="创建日期：" />
 
         <TextView
             android:id="@+id/createDateVal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="12sp"
             android:text="2016-11-22" />
 
         <ImageButton
@@ -135,19 +141,27 @@
         <Button
             android:id="@+id/voteBtn"
             android:layout_width="200px"
-            android:layout_height="wrap_content"
+            android:layout_height="80px"
+            android:layout_marginRight="20px"
+            android:background="#ff9900"
+            android:textColor="#ffffff"
             android:text="投票" />
 
         <Button
             android:id="@+id/likeBtn"
             android:layout_width="200px"
-            android:layout_height="wrap_content"
+            android:layout_height="80px"
+            android:layout_marginRight="20px"
+            android:background="#ff9900"
+            android:textColor="#ffffff"
             android:text="点赞" />
 
         <Button
             android:id="@+id/collectBtn"
             android:layout_width="200px"
-            android:layout_height="wrap_content"
+            android:layout_height="80px"
+            android:background="#ff9900"
+            android:textColor="#ffffff"
             android:text="收藏" />
     </LinearLayout>
 
