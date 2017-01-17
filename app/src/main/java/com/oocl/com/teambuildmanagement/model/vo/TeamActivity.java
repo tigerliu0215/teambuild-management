@@ -1,8 +1,5 @@
 package com.oocl.com.teambuildmanagement.model.vo;
 
-import com.oocl.com.teambuildmanagement.model.vo.Comment;
-import com.oocl.com.teambuildmanagement.model.vo.Operator;
-
 import java.util.List;
 
 /**
@@ -23,7 +20,24 @@ public class TeamActivity {
     private String htmlContent;
     private String title;
     private String summary;
+    private boolean isLiked;
+    private boolean isCollected;
 
+    public boolean isCollected() {
+        return isCollected;
+    }
+
+    public void setCollected(boolean collected) {
+        isCollected = collected;
+    }
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
+    }
 
     public String get_id() {
         return _id;

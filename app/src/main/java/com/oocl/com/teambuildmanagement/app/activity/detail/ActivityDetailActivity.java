@@ -243,6 +243,16 @@ public class ActivityDetailActivity extends AppCompatActivity {
             } else {
                 likeCountTxtView.setText("0");
             }
+            if(teamActivity.isLiked()) {
+                likeBtn.setText("不赞了");;
+            } else {
+                likeBtn.setText("点赞");;
+            }
+            if(teamActivity.isCollected()) {
+                collectBtn.setText("取消收藏");;
+            } else {
+                collectBtn.setText("收藏");;
+            }
         }
     }
 
@@ -254,6 +264,11 @@ public class ActivityDetailActivity extends AppCompatActivity {
             } else {
                 likeCountTxtView.setText("0");
             }
+            if(teamActivity.isLiked()) {
+                likeBtn.setText("不赞了");;
+            } else {
+                likeBtn.setText("点赞");;
+            }
         }
     }
 
@@ -264,6 +279,11 @@ public class ActivityDetailActivity extends AppCompatActivity {
                 collectCountTxtView.setText(String.valueOf(teamActivity.getCollects().size()));
             } else {
                 collectCountTxtView.setText("0");
+            }
+            if(teamActivity.isCollected()) {
+                collectBtn.setText("取消收藏");;
+            } else {
+                collectBtn.setText("收藏");;
             }
         }
     }
