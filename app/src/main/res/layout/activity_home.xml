@@ -50,15 +50,15 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingTop="5dip">
+                android:minWidth="30dp">
 
                 <ImageView
                     android:id="@+id/iv_home"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:layout_gravity="center"
-                    android:layout_marginTop="1.0dip"
-                    android:src="@drawable/tab_bottom_home" />
+                    android:src="@drawable/tab_bottom_home"
+                    android:padding="@dimen/default_padding"/>
 
             </FrameLayout>
             <FrameLayout
@@ -66,15 +66,15 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingTop="5dip">
+                android:minWidth="30dp">
 
                 <ImageView
                     android:id="@+id/iv_activity"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:layout_gravity="center"
-                    android:layout_marginTop="1.0dip"
-                    android:src="@drawable/tab_bottom_activity" />
+                    android:src="@drawable/tab_bottom_activity"
+                    android:padding="@dimen/default_padding"/>
 
             </FrameLayout>
             <FrameLayout
@@ -82,15 +82,15 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingTop="5dip">
+                android:minWidth="30dp">
 
                 <ImageView
                     android:id="@+id/iv_mine"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:layout_gravity="center"
-                    android:layout_marginTop="1.0dip"
-                    android:src="@drawable/tab_bottom_mine" />
+                    android:src="@drawable/tab_bottom_mine"
+                    android:padding="@dimen/default_padding"/>
 
             </FrameLayout>
         </LinearLayout>
