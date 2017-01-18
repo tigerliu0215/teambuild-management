@@ -3,6 +3,8 @@ package com.oocl.com.teambuildmanagement.app.vote;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -59,7 +61,10 @@ public class VoteCreateActivity extends AppCompatActivity {
     EditText subject;
     RadioGroup radioGroup;
     EditText descriptionEditTxt;
-
+    private Handler refreshUiHandler;
+    private final static int CREATE_FAIL_FLAG = 1;
+    private final static int CREATE_FAIL_FOR_NOT_AUTHORIZED_FLAG = 2;
+    private final static int CREATE_SUCC = 3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +89,7 @@ public class VoteCreateActivity extends AppCompatActivity {
         minusBtn2 = (ImageButton)findViewById(R.id.minusBtn2);
         plusBtn = (ImageButton)findViewById(R.id.plusBtn);
         hiddenPlusBtn = (Button)findViewById(R.id.hiddenPlusBtn);
-
+        initRefreshHandler();
         minusBtn1.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -196,15 +201,17 @@ public class VoteCreateActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
 //                handler.sendEmptyMessage(2);
+                refreshUiHandler.sendEmptyMessage(CREATE_FAIL_FLAG);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                LogUtil.info("response.code() + " + response.code());
                 if (response.code() == 200) {
-                    finish();
+                    refreshUiHandler.sendEmptyMessage(CREATE_SUCC);
                 }else{
                     if(ValidationUtil.getInstance().validateResponse(response) == ValidationUtil.LOGIN_NOT_AUTHORIZED){
-                        DialogUtil.showDialog(VoteCreateActivity.this,getString(R.string.title_authority_invalid),getString(R.string.error_user_create_vote_authority));
+                        refreshUiHandler.sendEmptyMessage(CREATE_FAIL_FOR_NOT_AUTHORIZED_FLAG);
                     }
                 }
             }
@@ -232,5 +239,24 @@ public class VoteCreateActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    public void initRefreshHandler(){
+        refreshUiHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what){
+                    case CREATE_FAIL_FLAG:
+                        SnackBarUtil.showSanckBarUtil(mainLayout,"发布失败");
+                        break;
+                    case CREATE_FAIL_FOR_NOT_AUTHORIZED_FLAG:
+                        DialogUtil.showDialog(VoteCreateActivity.this,getString(R.string.title_authority_invalid),getString(R.string.error_user_create_vote_authority));
+                        break;
+                    case CREATE_SUCC:
+                        finish();
+                        break;
+                }
+            }
+        };
     }
 }
